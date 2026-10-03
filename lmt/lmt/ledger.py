@@ -171,15 +171,22 @@ def check_path(path, value, pools, rule_pools, funded_by=None, category="investm
     if allowed is None:
         return {"feasible": False, "status": "infeasible", "reason": "funded_by source not satisfied",
                 "demand": 0, "routed": 0, "steps": [], "allocation": {}, "unpriced": [], "unknown_pools": []}
+    unknown_conds = [f"condition {c['rule']}: {c['text']} [{c['type']}/unknown]"
+                     for st in path for c in st.get("conditions", []) if c["status"] == "unknown"]
     ok, info = _route(path, value, pools, rule_pools, allowed, relaxed=False, category=category)
-    if ok:
+    if ok and not unknown_conds:
         return {"feasible": True, "status": "feasible", **info}
+    if ok:
+        # capacity fits, but a relied-on condition has unknown status: never a candidate
+        return {"feasible": False, "status": "indeterminate", **info, "relaxed_allocation": info["allocation"],
+                "unknowns": unknown_conds}
     ok_r, info_r = _route(path, value, pools, rule_pools, allowed, relaxed=True, category=category)
     status = "indeterminate" if ok_r else "infeasible"
     return {"feasible": False, "status": status, **info,
             "relaxed_allocation": info_r["allocation"] if ok_r else {},
             "unknowns": [f"rule {r}: no pool mapping, amount unknown" for r in info["unpriced"]]
-                        + [f"pool {p}: amount unknown" for p in info.get("unknown_pools", [])]}
+                        + [f"pool {p}: amount unknown" for p in info.get("unknown_pools", [])]
+                        + unknown_conds}
 
 
 def funded_by_map(doc):

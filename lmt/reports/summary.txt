@@ -1,48 +1,48 @@
-base             (none)    company_certified  BOUNDED_NON_REACHABILITY  
-base             (none)    full_trademark     BOUNDED_NON_REACHABILITY  
-base             A1        company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
-base             A1        full_trademark     BOUNDED_NON_REACHABILITY  
-base             A2        company_certified  BOUNDED_NON_REACHABILITY  
-base             A2        full_trademark     BOUNDED_NON_REACHABILITY  
-base             A3        company_certified  BOUNDED_NON_REACHABILITY  
-base             A3        full_trademark     BOUNDED_NON_REACHABILITY  
-base             A1+A2     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
-base             A1+A2     full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-base             A1+A3     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
-base             A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-base             A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
-base             A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-base             A1+A2+A3  company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
-base             A1+A2+A3  full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-blocker_cpi2020  (none)    company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  (none)    full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1        company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A2        company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A2        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A3        company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A3        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A2     company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A2     full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A3     company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A2+A3  company_certified  BOUNDED_NON_REACHABILITY  
-blocker_cpi2020  A1+A2+A3  full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     (none)    company_certified  BOUNDED_NON_REACHABILITY  
-blocker_weak     (none)    full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A1        company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
-blocker_weak     A1        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A2        company_certified  BOUNDED_NON_REACHABILITY  
-blocker_weak     A2        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A3        company_certified  BOUNDED_NON_REACHABILITY  
-blocker_weak     A3        full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A1+A2     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
-blocker_weak     A1+A2     full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-blocker_weak     A1+A3     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
-blocker_weak     A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
-blocker_weak     A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
-blocker_weak     A1+A2+A3  company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
-blocker_weak     A1+A2+A3  full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
+base             (none)    company_certified  INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 150000000}
+base             (none)    full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 247000000}
+base             A1        company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+base             A1        full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 97000000}
+base             A2        company_certified  INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 150000000}
+base             A2        full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 247000000}
+base             A3        company_certified  INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 150000000}
+base             A3        full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 247000000}
+base             A1+A2     company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+base             A1+A2     full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 22000000, 'sufficient_upper_bound': 97000000}
+base             A1+A3     company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+base             A1+A3     full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 97000000}
+base             A2+A3     company_certified  INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 150000000}
+base             A2+A3     full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 247000000}
+base             A1+A2+A3  company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+base             A1+A2+A3  full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 22000000, 'sufficient_upper_bound': 97000000}
+blocker_cpi2020  (none)    company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  (none)    full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1        company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1        full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A2        company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A2        full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A3        company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A3        full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A2     company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A2     full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A3     company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A3     full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A2+A3     company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A2+A3     full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A2+A3  company_certified  BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_cpi2020  A1+A2+A3  full_trademark     BOUNDED_NON_REACHABILITY   AA {'result': 'NO_AA_SUFFICES'}
+blocker_weak     (none)    company_certified  INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 150000000, 'sufficient_upper_bound': 250000000}
+blocker_weak     (none)    full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 247000000, 'sufficient_upper_bound': 444000000}
+blocker_weak     A1        company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+blocker_weak     A1        full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 97000000}
+blocker_weak     A2        company_certified  INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 150000000, 'sufficient_upper_bound': 250000000}
+blocker_weak     A2        full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 247000000, 'sufficient_upper_bound': 444000000}
+blocker_weak     A3        company_certified  INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 150000000, 'sufficient_upper_bound': 250000000}
+blocker_weak     A3        full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 247000000, 'sufficient_upper_bound': 444000000}
+blocker_weak     A1+A2     company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+blocker_weak     A1+A2     full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 22000000, 'sufficient_upper_bound': 97000000}
+blocker_weak     A1+A3     company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+blocker_weak     A1+A3     full_trademark     INDETERMINATE              AA {'result': 'PROVEN_MIN_AA', 'min_aa': 97000000}
+blocker_weak     A2+A3     company_certified  INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 150000000, 'sufficient_upper_bound': 250000000}
+blocker_weak     A2+A3     full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 247000000, 'sufficient_upper_bound': 444000000}
+blocker_weak     A1+A2+A3  company_certified  CANDIDATE_PATH             AA {'result': 'PROVEN_MIN_AA', 'min_aa': 0}  guarantor->nlp_rs | nlp_rs->unrestricted
+blocker_weak     A1+A2+A3  full_trademark     INDETERMINATE              AA {'result': 'BOUNDS', 'lower_bound': 22000000, 'sufficient_upper_bound': 97000000}

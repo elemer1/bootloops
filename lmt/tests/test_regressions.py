@@ -268,3 +268,42 @@ def test_new_api_symmetric_paths_counted_per_entity_without_tampering(tmp_path):
     certs = certify_mod.certificates(rp, sp, depth=2)
     assert [c["verdict"] for c in certs] == ["CANDIDATE_PATH"]
     assert certs[0]["independent_verifier"]["engine"]["feasible"] == 2
+
+
+# ---------------------------------------------------------------- found during Phase 1a: dividend direction
+
+PARENT = {"B": "H", "G": "B", "Nd": "B", "Nf": "B", "U": "B"}
+
+
+def test_negative_dividends_go_only_to_the_payers_parent():
+    """Without an ownership tree a 'dividend' could run from the Borrower to its own subsidiary
+    (B -> Nd), opening routes that do not exist. Shared by engine and verifier, so the gate
+    cannot catch it; this test does."""
+    doc = contract([
+        rule("char.dividend", kind="characterization", action="transfer", forms=["dividend"],
+             triggers=["restricted_payments"]),
+        rule("rp_any", kind="exception", category="restricted_payments", action="transfer", actor=["any"],
+             counterparty=["any"], assets=["any"], capacity="unlimited"),
+        exc("into_u", ["nlp_rs"], ["unrestricted"], "unlimited"),
+    ])
+    cert = search(Engine(doc, default_universe()), depth=3)
+    for p in cert["paths"]:
+        for st in p:
+            if st["action"].startswith("transfer[dividend]"):
+                assert PARENT[st["src"]] == st["dst"], st["action"]
+
+
+def test_verifier_dividends_go_only_to_the_payers_parent():
+    from lmt import verify
+    doc = contract([
+        rule("char.dividend", kind="characterization", action="transfer", forms=["dividend"],
+             triggers=["restricted_payments"]),
+        rule("rp_any", kind="exception", category="restricted_payments", action="transfer", actor=["any"],
+             counterparty=["any"], assets=["any"], capacity="unlimited"),
+        exc("into_u", ["nlp_rs"], ["unrestricted"], "unlimited"),
+    ])
+    for p in verify.Checker(doc, {"facts": []}, set()).paths(3):
+        for st in p:
+            a = st["act"]
+            if a[0] == "transfer" and a[3] == "dividend":
+                assert PARENT[a[1]] == a[2], a

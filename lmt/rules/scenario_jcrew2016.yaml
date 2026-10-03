@@ -12,6 +12,30 @@ facts:
   holds: false
   why: "No securitization financing is part of the transaction (same source)."
 
+# Status of typed conditions for THIS transaction (first matching pattern wins). Status is what the
+# sources show, not what would make the path work: no source -> unknown or assumed, never proven.
+condition_status:
+- pattern: "intercompany loans under this clause evidenced by notes"
+  status: proven
+  why: "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan."
+  source: "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+- pattern: "Available Amount portion: no Event of Default"
+  status: assumed
+  why: >-
+    No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged
+    that the transfer itself caused Defaults (complaint para. 81). Not verified either way.
+  source: "none establishing the condition"
+- pattern: "Total Leverage Ratio <= 6\\.0"
+  status: unknown
+  why: "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources."
+  source: "none"
+- pattern: "(CFO|Responsible Officer|officer) certificate"
+  status: unknown
+  why: "No evidence reviewed that the certificate this basket requires was delivered."
+  source: "none"
+
+aa_parameter: available_amount
+
 # Capacity ledger inputs (US dollars). Total Assets at 2016-10-29 were $1,499,306,000
 # (J.Crew Group 10-Q, accession 0001564590-16-029583, via SEC XBRL), so every
 # percentage prong is below its dollar floor and the floors govern.
@@ -20,9 +44,11 @@ capacity:
     c_iv_floor: 150000000      # 7.02(c)(iv)(B)(x): greater of $150,000,000 and 4.00% of Total Assets (~$60.0M)
     n_floor: 100000000         # 7.02(n)(i): greater of $100,000,000 and 3.25% of Total Assets (~$48.7M)
     i_B_floor: 75000000        # 7.02(i)(B)(i): greater of $75,000,000 and 2.50% of Total Assets (~$37.5M)
-    available_amount: 27000000 # DERIVED, not verified: the lenders' complaint (para. 82) says the company
-                               # asserted about $277M of aggregate capacity under 7.02(c)(iv) and (n);
-                               # $277M - $150M - $100M = $27M, treated as one shared builder pool.
+    available_amount: null     # UNKNOWN; queried as a parameter (aa_parameter below), not an input.
+                               # For comparison only: under the basket combination and other inputs
+                               # used here, $27M is the value implied by the company's asserted ~$277M
+                               # aggregate capacity under 7.02(c)(iv) and (n) (complaint para. 82). It is
+                               # not an independently verified AA amount and not a lower bound.
   rule_pools:
     "7.02(c)(iv)": [c_iv_floor, available_amount]
     "7.02(n)": [n_floor, available_amount]

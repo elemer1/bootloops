@@ -34,11 +34,46 @@ class Checker:
         self.rules = [r for r in doc["rules"] if not r.get("assumption") or r["assumption"] in assumptions]
         self.id = {r["id"]: r for r in self.rules}
         self.facts = [f for f in scenario.get("facts", []) if not f["holds"]]
+        self.overrides = list(scenario.get("condition_status") or [])
         self.ents = {"H": ("holdings", False), "B": ("borrower", False), "G": ("guarantor", False),
                      "Nd": ("nlp_rs", False), "Nf": ("nlp_rs", True), "U": ("unrestricted", False)}
 
+    PARENT = {"B": "H", "G": "B", "Nd": "B", "Nf": "B", "U": "B"}
+
+    # ---- condition status, re-implemented (see SCHEMA.md for the order of resolution)
+    ORDER = ["proven", "assumed", "unknown", "refuted"]
+
+    def cond_state(self, c):
+        text = c if isinstance(c, str) else c["text"]
+        for o in self.overrides:
+            if re.search(o["pattern"], text, re.I):
+                return o["status"]
+        for f in self.facts:
+            if re.search(f["pattern"], text, re.I):
+                return "refuted"
+        return "assumed" if isinstance(c, str) else c.get("status", "assumed")
+
+    def own_state(self, r):
+        memo = self.__dict__.setdefault("_own", {})
+        if r["id"] not in memo:
+            states = [self.cond_state(c) for c in r.get("conditions") or []]
+            memo[r["id"]] = max(states, key=self.ORDER.index) if states else "proven"
+        return memo[r["id"]]
+
     def dead(self, r):
-        return any(re.search(f["pattern"], c, re.I) for c in r.get("conditions") or [] for f in self.facts)
+        return self.own_state(r) == "refuted"
+
+    def rule_state(self, rid, ctx, held_via, depth=0):
+        """Own conditions, plus (for a cross-reference) the best-supported rule pointed to."""
+        r = self.id[rid]
+        s = self.own_state(r)
+        v = r.get("via")
+        if v and depth < 4:
+            inner = self.allowed(v["category"], ctx, held_via, set(v.get("except", [])) | {rid})
+            if inner:
+                best = min((self.rule_state(i, ctx, held_via, depth + 1) for i in inner), key=self.ORDER.index)
+                s = max([s, best], key=self.ORDER.index)
+        return s
 
     def fits(self, r, kind, actor, cp, foreign, form, asset="ip"):
         if r.get("action", "transfer") != kind:
@@ -136,11 +171,16 @@ class Checker:
             unc = [i for i in inv if i not in cap]
             bookings = [("cap", frozenset(c)) for n in range(1, len(cap) + 1) for c in itertools.combinations(cap, n)]
             bookings += [("unc", frozenset([i])) for i in unc]
+        # condition status the step relies on: every booked basket, plus the best rule per other category
+        other = [min((self.rule_state(i, ctx, held_via) for i in ids), key=self.ORDER.index)
+                 for c, ids in used.items() if c != "investments"]
         out = []
         for kind, b in bookings:
+            st = other + [self.rule_state(i, ctx, held_via) for i in b]
+            cond = max(st, key=self.ORDER.index) if st else "proven"
             nv = b if act[0] == "transfer" else held_via
             out.append(((new_owner, new_enc, nv, new_roles), {"act": act, "booking": sorted(b), "capped": kind == "cap",
-                                                              "holder": owner}))
+                                                              "holder": owner, "cond": cond}))
         return out
 
     def acts(self, state):
@@ -149,8 +189,8 @@ class Checker:
             if dst == owner:
                 continue
             for form in ("contribution", "dividend", "sale"):
-                if form == "dividend" and roles[dst] == "unrestricted":
-                    continue
+                if form == "dividend" and self.PARENT.get(owner) != dst:
+                    continue          # dividends only to the payer's parent (H -> B -> {G, Nd, Nf, U})
                 yield ("transfer", owner, dst, form)
         for e in self.ents:
             if roles[e] in RS:
@@ -232,9 +272,57 @@ def hall_status(path, value, pools, rule_pools, funded_by):
                     return False
         return True
 
+    unknown = any(st.get("cond") == "unknown" for st in path)
     if ok(False):
-        return "feasible"
+        return "indeterminate" if unknown else "feasible"
     return "indeterminate" if ok(True) else "infeasible"
+
+
+def aa_threshold(path, value, pools, rule_pools, funded_by, aa):
+    """Least AA (x_c confirmed, x_r relaxed) by Hall's condition, computed in closed form:
+    for every set X of capped steps, value*|X| <= capacity(N(X)); if the AA pool is in N(X) the
+    deficit value*|X| - capacity(N(X) without AA) is a lower bound on AA, else a positive deficit
+    means no AA suffices. Threshold = max(0, all such deficits). Returns (x_c, x_r), None = no AA."""
+    for j, st in enumerate(path):
+        for rid in st["booking"]:
+            elig = funded_by.get(rid)
+            if elig:
+                k = _incoming(path, j)
+                if k is None or not path[k]["booking"] or not set(path[k]["booking"]) <= set(elig):
+                    return None, None
+    capped = [st for st in path if st["capped"]]
+    bound = value * max(len(capped), 1)
+    foreign = [st for st in capped if st["act"][0] == "designate" and st["act"][1] != st["holder"]]
+    unknown_cond = any(st.get("cond") == "unknown" for st in path)
+
+    def least(relaxed):
+        if not relaxed and (foreign or unknown_cond):
+            return None
+        sizes = {p: (a if a is not None else (bound if relaxed else 0)) for p, a in pools.items() if p != aa}
+        neigh = []
+        for st in capped:
+            if st in foreign:
+                continue
+            ps = set()
+            for rid in st["booking"]:
+                if rid in rule_pools:
+                    ps |= set(rule_pools[rid])
+                elif relaxed:
+                    ps.add("?" + rid)
+                    sizes["?" + rid] = bound
+            neigh.append(ps)
+        need = 0
+        for n in range(1, len(neigh) + 1):
+            for X in itertools.combinations(neigh, n):
+                reach = set().union(*X)
+                deficit = value * n - sum(sizes.get(p, 0) for p in reach if p != aa)
+                if deficit > 0:
+                    if aa not in reach:
+                        return None
+                    need = max(need, deficit)
+        return need
+
+    return least(False), least(True)
 
 
 def hall_feasible(path, value, pools, rule_pools, funded_by=None):
@@ -267,6 +355,7 @@ def check(rules_doc, scenario_path, depth=3):
     sc = yaml.safe_load(open(scenario_path))
     cap = sc["capacity"]
     _check_pools(cap["pools"], cap["rule_pools"])
+    aa = sc.get("aa_parameter")
     ids = sorted((rules_doc.get("assumptions") or {}).keys())
     fb = {r["id"]: list(r["funded_by"]) for r in rules_doc["rules"] if r.get("funded_by")}
     res = {}
@@ -274,10 +363,12 @@ def check(rules_doc, scenario_path, depth=3):
         for prof in itertools.combinations(ids, n):
             ps = Checker(rules_doc, sc, set(prof)).paths(depth)
             for vname, value in cap["values"].items():
-                out = {"feasible": set(), "indeterminate": set()}
+                out = {"feasible": set(), "indeterminate": set(), "thresholds": {}}
                 for p in ps:
                     s = hall_status(p, value, cap["pools"], cap["rule_pools"], fb)
                     if s in out:
                         out[s].add(signature(p))
+                    if aa:
+                        out["thresholds"][signature(p)] = aa_threshold(p, value, cap["pools"], cap["rule_pools"], fb, aa)
                 res[(prof, vname)] = out
     return res

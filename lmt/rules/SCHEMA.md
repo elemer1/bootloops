@@ -175,3 +175,27 @@ exception with conservative fields and add a `note:`.
   (exit 2) and writes no certificate.
 - **Verification signatures** are entity-level: per step the full action (`transfer[<form>] <src>-><dst>`
   or `designate <entity>`) plus the sorted booking. Role-level shapes are for reports and benchmarks only.
+
+## Phase 1a: conditions, AA threshold, certificate shape
+
+- **Conditions** have a TYPE (`HARD` / `QUANT` / `INTERP` / `PROCEDURAL` / `DISCRETION` / `unknown`) and a
+  STATUS (`proven` / `refuted` / `assumed` / `unknown`). Object form: `{text, type, status?, source?,
+  assumption?}`; a legacy string reads as `{type: unknown, status: assumed}`. Status resolution order:
+  scenario `condition_status` (regex) → scenario `facts` with `holds: false` (refuted) → the object's
+  status → assumed. Semantics: refuted disables the rule; unknown caps a path at indeterminate;
+  assumed allows a candidate and is listed; proven is not pending. A PROCEDURAL condition is never
+  satisfied by default. A step relies on every booked investments basket and, in each other category,
+  on the best-supported permitting rule (a cross-reference also relies on the rule it points to).
+- **AA threshold** (`aa_parameter` in the scenario names the pool): rules, interpretation profile,
+  other facts and other pools fixed, only that pool varies; feasibility is monotone in it only under
+  that premise. Engine: integer bisection per path on [0, value × capped steps]. Verifier: closed form
+  from Hall's condition. Per query: `PROVEN_MIN_AA` / `BOUNDS` (lower bound from the relaxed model,
+  sufficient upper bound from the confirmed one) / `NO_AA_SUFFICES` / `INDETERMINATE`. Per-path
+  thresholds must match exactly or the query is `VERIFICATION_FAILED`.
+- **Certificate**: `search_result` (= `verdict`) and `dependencies` {interpretation, aa, conditions
+  (with type, status, source), missing_facts}. With nothing pending: "no further open conditions, within
+  the stated model, initial state and fact inputs". There is no UNCONDITIONAL verdict.
+- **Ownership tree** (default universe): H → B → {G, Nd, Nf, U}. A `dividend` runs only to the payer's
+  parent. (Found during Phase 1a: without the tree a "dividend" could run from the Borrower to its own
+  subsidiary; engine and verifier shared the gap, so the gate could not catch it.) Contributions are not
+  yet restricted by direction; a stated model limitation.

@@ -3,6 +3,8 @@ provenance:
   base: rules/jcrew2014_B.yaml (encoder B)
   compared_with: rules/jcrew2014_A.yaml (encoder A)
   adjudication: ADJUDICATION.md
+  phase1a: Conditions of 7.02(c)(iv), 7.02(n), 7.02(i) and 6.14 given a TYPE by the adjudicator (status comes from
+    the scenario's condition_status); other rules keep legacy free-text conditions.
 assumptions:
   A1: '7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received
     as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is "financed with the proceeds received" from that
@@ -181,13 +183,18 @@ rules:
   foreign: any
   capacity: unlimited
   conditions:
-  - immediately before and after such designation, no Default
-  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating
-    a Securitization Subsidiary in connection with a Qualified Securitization Financing)
-  - entity would not be a 'Restricted Subsidiary' for the ABL Facilities, the Senior Notes, any other Junior Financing
-    or any other Indebtedness of any Loan Party
-  - entity has not previously been re-designated from Unrestricted to Restricted (no subsequent re-designation)
-  - designation is an Investment by the Borrower at fair market value and must be permitted under 7.02
+  - text: immediately before and after such designation, no Default
+    type: HARD
+  - text: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating
+      a Securitization Subsidiary in connection with a Qualified Securitization Financing)
+    type: QUANT
+  - text: entity would not be a 'Restricted Subsidiary' for the ABL Facilities, the Senior Notes, any other Junior
+      Financing or any other Indebtedness of any Loan Party
+    type: HARD
+  - text: entity has not previously been re-designated from Unrestricted to Restricted (no subsequent re-designation)
+    type: HARD
+  - text: designation is an Investment by the Borrower at fair market value and must be permitted under 7.02
+    type: HARD
   note: Re-designation of an Unrestricted Subsidiary as Restricted is also permitted (deemed incurrence of its Indebtedness/Liens);
     not modeled as an action.
   cite:
@@ -505,7 +512,8 @@ rules:
   capacity_note: greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at
     any time outstanding
   conditions:
-  - intercompany loans under this clause evidenced by notes pledged to the Collateral Agent
+  - text: intercompany loans under this clause evidenced by notes pledged to the Collateral Agent
+    type: HARD
   cite:
     clause: 7.02(c)
     quote: by any Loan Party in any Non-Loan Party that is a Restricted Subsidiary
@@ -618,13 +626,19 @@ rules:
   foreign: any
   capacity: unlimited
   conditions:
-  - acquired property constitutes Collateral and acquired/created Subsidiary becomes a Guarantor and complies with
-    Section 6.11
-  - acquired business permitted under Section 7.07
-  - no Default immediately before and after
-  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
-  - Responsible Officer certificate
-  - counterparty is (or becomes) wholly owned
+  - text: acquired property constitutes Collateral and acquired/created Subsidiary becomes a Guarantor and complies
+      with Section 6.11
+    type: HARD
+  - text: acquired business permitted under Section 7.07
+    type: HARD
+  - text: no Default immediately before and after
+    type: HARD
+  - text: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+    type: QUANT
+  - text: Responsible Officer certificate
+    type: PROCEDURAL
+  - text: counterparty is (or becomes) wholly owned
+    type: HARD
   note: 'Permitted Acquisition. Whether an intra-group capital contribution in exchange for equity is a ''purchase
     or other acquisition'' is a reading choice. | ADJUDICATION: whether an intra-group contribution is a "purchase
     or other acquisition" (A2).'
@@ -653,11 +667,16 @@ rules:
   capacity_note: greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any
     time outstanding
   conditions:
-  - acquired business permitted under Section 7.07
-  - no Default immediately before and after
-  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
-  - Responsible Officer certificate
-  - counterparty is (or becomes) a wholly owned Restricted Subsidiary
+  - text: acquired business permitted under Section 7.07
+    type: HARD
+  - text: no Default immediately before and after
+    type: HARD
+  - text: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+    type: QUANT
+  - text: Responsible Officer certificate
+    type: PROCEDURAL
+  - text: counterparty is (or becomes) a wholly owned Restricted Subsidiary
+    type: HARD
   note: 'Permitted Acquisition clause (B) basket for Persons that do not become Loan Parties. | ADJUDICATION: whether
     an intra-group contribution is a "purchase or other acquisition" (A2).'
   cite:
@@ -683,11 +702,16 @@ rules:
   foreign: any
   capacity: unlimited
   conditions:
-  - acquired business permitted under Section 7.07
-  - no Default immediately before and after
-  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
-  - Responsible Officer certificate
-  - counterparty is (or becomes) a wholly owned Restricted Subsidiary
+  - text: acquired business permitted under Section 7.07
+    type: HARD
+  - text: no Default immediately before and after
+    type: HARD
+  - text: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+    type: QUANT
+  - text: Responsible Officer certificate
+    type: PROCEDURAL
+  - text: counterparty is (or becomes) a wholly owned Restricted Subsidiary
+    type: HARD
   note: 'Clause (B) cap applies only to Investments by Loan Parties; a Permitted Acquisition by a Non-Loan Party
     is not capped by (B). | ADJUDICATION: whether an intra-group contribution is a "purchase or other acquisition"
     (A2).'
@@ -734,7 +758,8 @@ rules:
   capacity_note: greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long
     as no Event of Default
   conditions:
-  - 'Available Amount portion: no Event of Default continuing or resulting'
+  - text: 'Available Amount portion: no Event of Default continuing or resulting'
+    type: HARD
   cite:
     clause: 7.02(n)
     quote: other Investments that do not exceed in the aggregate at any time outstanding
@@ -752,7 +777,8 @@ rules:
   capacity_note: greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long
     as no Event of Default
   conditions:
-  - 'Available Amount portion: no Event of Default continuing or resulting'
+  - text: 'Available Amount portion: no Event of Default continuing or resulting'
+    type: HARD
   note: Designation is deemed an Investment (6.14) at fair market value; general basket covers it.
   cite:
     clause: 7.02(n)

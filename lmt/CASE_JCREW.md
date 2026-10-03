@@ -130,6 +130,63 @@ Designations are deemed Investments at the designated entity's fair market value
 values an entity holding the tracked asset at the asset's value, and treats any other designated
 entity's value as unknown.
 
+## Phase 1a: Available Amount as a parameter, condition status, dependencies
+
+**Inputs changed.** The Available Amount (AA) is no longer an input. Under the basket combination and
+other inputs used here, $27M is the value implied by the company's asserted ~$277M aggregate capacity
+under §7.02(c)(iv) and (n) (complaint para. 82); it is not an independently verified AA amount and not
+a lower bound. AA is now `null` (unknown) and queried as a parameter.
+
+Conditions of §7.02(c)(iv), §7.02(n), §7.02(i) and §6.14 now carry a type; their status for this
+transaction comes from the scenario, with sources:
+
+| condition | type | status | source |
+|---|---|---|---|
+| 7.02(c)(iv): intercompany loans evidenced by pledged notes | HARD | proven (inapplicable: equity contributions, not loans) | complaint para. 59 |
+| 7.02(n): no Event of Default for the Available Amount portion | HARD | assumed | no source establishes it either way; lenders later alleged Defaults (para. 81) |
+| Total Leverage Ratio ≤ 6.0x (7.02(i), 6.14) | QUANT | unknown | not established from verified sources |
+| CFO / officer certificates (7.02(i), 6.14) | PROCEDURAL | unknown | no evidence of delivery reviewed |
+
+All other rules keep free-text conditions, reported as type unknown, status assumed.
+
+**AA threshold.** The premise is fixed: rules, interpretation profile, other facts and all other pools stay as
+they are; only AA varies. Engine (bisection) and verifier (closed form from Hall's condition) agree on
+every path in all 48 queries.
+
+| profile (base agreement) | $250M (company value) | $347M (whole trademark) |
+|---|---|---|
+| A1, A1+A3 | candidate path; **min AA = $0** | min AA = $97M |
+| A1+A2, A1+A2+A3 | candidate path; min AA = $0 | bounds: **$22M** (lower) to $97M (sufficient) |
+| none, A2, A3, A2+A3 | min AA = $150M | min AA = $247M |
+
+Reading:
+- The A1 route at $250M needs no Available Amount at all: the two floors ($150M + $100M) carry it
+  exactly. It does not depend on the derived $27M.
+- Without A1 every route needs AA ≥ $150M, far above the $27M implied by the company's own claim.
+  The cheapest such route is a direct contribution into the unrestricted subsidiary under the 7.02(n)
+  general basket.
+- At $347M, the $22M lower bound comes from routes through §7.02(i), whose leverage test and officer
+  certificates have unknown status. A procedural condition is not treated as satisfied, so these routes
+  are indeterminate, not candidates.
+
+**Verdict changes against `da0711c`.** 24 of 48 changed, all explained by the two input changes:
+- 20 changed from bounded non-reachability to indeterminate. With AA unknown, they now come with the
+  threshold that would make them reachable.
+- 4 changed from candidate to indeterminate (A1+A2 and A1+A2+A3 at $347M, base and weak blocker). The
+  only route that fits uses §7.02(i), whose conditions are unknown.
+- The CPI blocker is unchanged: no route under any profile, and no AA suffices.
+
+**Weak blocker.** It has a second bypass, beyond the non-guarantor route. Designating the IP-holding
+guarantor itself as unrestricted is a deemed Investment of $250M under 7.02(n). It needs AA ≥ $150M,
+and the 6.14 leverage test, whose status is unknown. The weak blocker restricts transfers, not
+designations. Hence the bounds of $150M (lower) to $250M (sufficient) without A1.
+
+**Model fix found during Phase 1a.** Dividends could previously run to any restricted entity, including from the
+Borrower to its own subsidiary. Engine and verifier shared the gap, so the gate could not catch it. The
+universe now has an ownership tree (H → B → {G, Nd, Nf, U}), and dividends run only to the payer's
+parent. A regression test failed on both implementations before the fix. Contributions are still not
+restricted by direction; this is a stated limitation.
+
 ## What this shows and what it does not
 
 Shows, within the stated model:
@@ -166,8 +223,8 @@ actually used.
 
 ```
 cd lmt
-python3 -m pytest tests -q                  # 42 tests, ~45 s (reference mode, no pruning)
+python3 -m pytest tests -q                  # 93 tests, ~50 s (reference mode, no pruning)
 python3 -m lmt.lint rules/jcrew2014.yaml    # grounding + coverage
 python3 -m lmt.closure rules/jcrew2014.yaml # cross-reference closure
-python3 -m lmt.certify --out reports        # 48 certificates, verifier-gated, ~1.5 min; exit 1 on any failure
+python3 -m lmt.certify --out reports        # 48 certificates + AA thresholds, verifier-gated, ~4 min; exit 1 on any failure
 ```

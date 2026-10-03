@@ -105,9 +105,30 @@ def test_T1_without_A1_no_feasible_leak_of_250m():
         assert feasible(RULES, prof, V250) == []
 
 
-def test_T1_ledger_347m_does_not_fit_under_A1_alone_but_fits_with_A2():
+def test_T1_ledger_347m_does_not_fit_under_A1_alone_and_A2_route_is_unconfirmed():
+    """With AA unknown: $347M has no confirmed path under A1 or A1+A2. Under A1+A2 the only
+    route that could carry it uses 7.02(i), whose leverage test and officer certificates have
+    unknown status, so it is indeterminate, not a candidate (Phase 0 called it feasible with AA
+    fixed at the derived $27M and conditions treated as satisfied)."""
     assert feasible(RULES, {"A1"}, V347) == []
-    assert feasible(RULES, {"A1", "A2"}, V347)
+    assert feasible(RULES, {"A1", "A2"}, V347) == []
+    assert feasible(RULES, {"A1", "A2"}, V347, status="indeterminate")
+
+
+def test_T1_aa_thresholds_regression():
+    """Regression values under the Phase 1a inputs (not legal conclusions)."""
+    from lmt.threshold import aggregate, path_thresholds
+    fb = funded_by_map(RULES)
+
+    def q(prof, value):
+        cert = search(Engine(RULES, U, set(prof)), depth=3)
+        return aggregate([path_thresholds(p, value, CAP["pools"], CAP["rule_pools"], fb, SC["aa_parameter"])
+                          for p in cert["paths"]])
+    assert q({"A1"}, V250) == {"result": "PROVEN_MIN_AA", "min_aa": 0}
+    assert q(set(), V250) == {"result": "PROVEN_MIN_AA", "min_aa": 150_000_000}
+    assert q({"A1"}, V347) == {"result": "PROVEN_MIN_AA", "min_aa": 97_000_000}
+    assert q({"A1", "A2"}, V347) == {"result": "BOUNDS", "lower_bound": 22_000_000,
+                                     "sufficient_upper_bound": 97_000_000}
 
 
 # ---- T2 blockers -----------------------------------------------------------------------------
@@ -146,6 +167,7 @@ def test_T6_renaming_and_shuffling_do_not_change_results(seed):
     d, idmap = perturb(RULES, seed)
     pu = perturbed_universe(seed)
     pu.facts = U.facts
+    pu.condition_status = U.condition_status
     cert = search(Engine(d, pu, {"A1"}), depth=3)
     assert path_signature(cert, idmap) == path_signature(base)
 

@@ -85,7 +85,7 @@ def perturbed_universe(seed=0):
     rng = random.Random(seed)
     base = default_universe()
     names = {e: f"E{rng.randrange(10**6):06d}" for e in base.entities}
-    ents = {names[e]: v for e, v in base.entities.items()}
+    ents = {names[e]: {**v, "parent": names.get(v.get("parent"))} for e, v in base.entities.items()}
     keys = list(ents)
     rng.shuffle(keys)
     return Universe(entities={k: ents[k] for k in keys}, asset=base.asset, start_owner=names[base.start_owner])

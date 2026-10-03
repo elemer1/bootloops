@@ -2,7 +2,7 @@
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [],
    "assumption_text": {},
    "scenario_facts": [
@@ -17,6 +17,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -24,27 +50,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -56,36 +88,42 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    }
   },
-  "structural_paths": 187,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 187,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 307,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 307,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 150000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [],
    "assumption_text": {},
    "scenario_facts": [
@@ -100,6 +138,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -107,27 +171,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -139,36 +209,42 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    }
   },
-  "structural_paths": 187,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 187,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 307,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 307,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 247000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A1"
    ],
@@ -187,6 +263,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -194,27 +296,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -226,16 +334,18 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
-    "feasible": 10,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 413
    },
    "verifier": {
-    "feasible": 10,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 413
    }
   },
-  "structural_paths": 261,
+  "structural_paths": 421,
   "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
@@ -246,8 +356,7 @@
    "allocation_usd": {
     "0": {
      "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "n_floor": 73000000
+     "n_floor": 100000000
     }
    },
    "steps": [
@@ -274,12 +383,6 @@
      "effects": [
       "7.05.free_and_clear",
       "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
      ]
     },
     {
@@ -301,34 +404,50 @@
       "dispositions": "uncapped",
       "investments": "uncapped"
      },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
+     "effects": []
     }
    ]
   },
+  "other_paths": {
+   "feasible": 8,
+   "indeterminate": 413
+  },
+  "search_result": "CANDIDATE_PATH",
   "dependencies": {
    "interpretation": [
     "A1"
    ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 0,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ],
+   "conditions": [
+    {
+     "text": "intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+     "type": "HARD",
+     "status": "proven",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')",
+     "rule": "7.02(c)(iv)"
+    },
+    {
+     "text": "Available Amount portion: no Event of Default continuing or resulting",
+     "type": "HARD",
+     "status": "assumed",
+     "source": "none establishing the condition",
+     "rule": "7.02(n)"
+    }
    ]
-  },
-  "other_paths": {
-   "feasible": 10,
-   "indeterminate": 0
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A1"
    ],
@@ -347,6 +466,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -354,27 +499,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -386,36 +537,44 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 421
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 421
    }
   },
-  "structural_paths": 261,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 261,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 421,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 421,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A1"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 97000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A2"
    ],
@@ -434,6 +593,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -441,27 +626,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -473,36 +664,50 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 743
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 743
    }
   },
-  "structural_paths": 443,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 443,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 743,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 743,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A2"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 150000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A2"
    ],
@@ -521,6 +726,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -528,27 +759,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -560,36 +797,50 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 743
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 743
    }
   },
-  "structural_paths": 443,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 443,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 743,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 743,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A2"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 247000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A3"
    ],
@@ -608,6 +859,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -615,27 +892,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -647,36 +930,44 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    }
   },
-  "structural_paths": 187,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 187,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 307,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 307,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 150000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A3"
    ],
@@ -695,6 +986,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -702,27 +1019,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -734,36 +1057,44 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    },
    "verifier": {
     "feasible": 0,
-    "indeterminate": 0
+    "indeterminate": 307
    }
   },
-  "structural_paths": 187,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 187,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
+  "structural_paths": 307,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 307,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 247000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A1",
     "A2"
@@ -784,6 +1115,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -791,27 +1148,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -823,16 +1186,18 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
-    "feasible": 36,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 1015
    },
    "verifier": {
-    "feasible": 36,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 1015
    }
   },
-  "structural_paths": 627,
+  "structural_paths": 1023,
   "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
@@ -843,8 +1208,7 @@
    "allocation_usd": {
     "0": {
      "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "i_B_floor": 73000000
+     "n_floor": 100000000
     }
    },
    "steps": [
@@ -858,359 +1222,6 @@
       "investments": [
        "7.02(c)(iv)",
        "7.02(i).nlp",
-       "7.02(n)"
-      ]
-     },
-     "designated": [
-      "7.02(c)(iv)",
-      "7.02(i).nlp"
-     ],
-     "capacity": {
-      "dispositions": "capped",
-      "investments": "capped"
-     },
-     "effects": [
-      "7.05.free_and_clear",
-      "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(i).nlp: acquired business permitted under Section 7.07",
-      "7.02(i).nlp: no Default immediately before and after",
-      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-      "7.02(i).nlp: Responsible Officer certificate",
-      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    },
-    {
-     "action": "transfer[contribution] Nd->U",
-     "roles": "nlp_rs->unrestricted",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(n)",
-       "7.02(t)"
-      ]
-     },
-     "designated": [
-      "7.02(t)"
-     ],
-     "capacity": {
-      "dispositions": "uncapped",
-      "investments": "uncapped"
-     },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    }
-   ]
-  },
-  "dependencies": {
-   "interpretation": [
-    "A1",
-    "A2"
-   ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(i).nlp: Responsible Officer certificate",
-    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-    "7.02(i).nlp: acquired business permitted under Section 7.07",
-    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-    "7.02(i).nlp: no Default immediately before and after",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
-   ]
-  },
-  "other_paths": {
-   "feasible": 36,
-   "indeterminate": 0
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A1",
-    "A2"
-   ],
-   "assumption_text": {
-    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
-    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
-   },
-   "scenario_facts": [
-    {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
-    },
-    {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
-    }
-   ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "full_trademark",
-   "usd": 347000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 12,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 12,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 627,
-  "verdict": "CANDIDATE_PATH",
-  "witness": {
-   "shape": [
-    "guarantor->nlp_rs",
-    "nlp_rs->unrestricted"
-   ],
-   "class": "uncapped-entry",
-   "allocation_usd": {
-    "0": {
-     "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "i_B_floor": 75000000,
-     "n_floor": 95000000
-    }
-   },
-   "steps": [
-    {
-     "action": "transfer[contribution] G->Nd",
-     "roles": "guarantor->nlp_rs",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(c)(iv)",
-       "7.02(i).nlp",
-       "7.02(n)"
-      ]
-     },
-     "designated": [
-      "7.02(c)(iv)",
-      "7.02(i).nlp",
-      "7.02(n)"
-     ],
-     "capacity": {
-      "dispositions": "capped",
-      "investments": "capped"
-     },
-     "effects": [
-      "7.05.free_and_clear",
-      "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(i).nlp: acquired business permitted under Section 7.07",
-      "7.02(i).nlp: no Default immediately before and after",
-      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-      "7.02(i).nlp: Responsible Officer certificate",
-      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    },
-    {
-     "action": "transfer[contribution] Nd->U",
-     "roles": "nlp_rs->unrestricted",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(n)",
-       "7.02(t)"
-      ]
-     },
-     "designated": [
-      "7.02(t)"
-     ],
-     "capacity": {
-      "dispositions": "uncapped",
-      "investments": "uncapped"
-     },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    }
-   ]
-  },
-  "dependencies": {
-   "interpretation": [
-    "A1",
-    "A2"
-   ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(i).nlp: Responsible Officer certificate",
-    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-    "7.02(i).nlp: acquired business permitted under Section 7.07",
-    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-    "7.02(i).nlp: no Default immediately before and after",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
-   ]
-  },
-  "other_paths": {
-   "feasible": 12,
-   "indeterminate": 0
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A1",
-    "A3"
-   ],
-   "assumption_text": {
-    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
-    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
-   },
-   "scenario_facts": [
-    {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
-    },
-    {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
-    }
-   ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "company_certified",
-   "usd": 250000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 10,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 10,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 261,
-  "verdict": "CANDIDATE_PATH",
-  "witness": {
-   "shape": [
-    "guarantor->nlp_rs",
-    "nlp_rs->unrestricted"
-   ],
-   "class": "uncapped-entry",
-   "allocation_usd": {
-    "0": {
-     "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "n_floor": 73000000
-    }
-   },
-   "steps": [
-    {
-     "action": "transfer[contribution] G->Nd",
-     "roles": "guarantor->nlp_rs",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(c)(iv)",
        "7.02(n)"
       ]
      },
@@ -1225,12 +1236,6 @@
      "effects": [
       "7.05.free_and_clear",
       "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
      ]
     },
     {
@@ -1252,35 +1257,188 @@
       "dispositions": "uncapped",
       "investments": "uncapped"
      },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
+     "effects": []
     }
-   ]
-  },
-  "dependencies": {
-   "interpretation": [
-    "A1",
-    "A3"
-   ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
    ]
   },
   "other_paths": {
-   "feasible": 10,
-   "indeterminate": 0
+   "feasible": 8,
+   "indeterminate": 1015
+  },
+  "search_result": "CANDIDATE_PATH",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 0,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ],
+   "conditions": [
+    {
+     "text": "intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+     "type": "HARD",
+     "status": "proven",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')",
+     "rule": "7.02(c)(iv)"
+    },
+    {
+     "text": "Available Amount portion: no Event of Default continuing or resulting",
+     "type": "HARD",
+     "status": "assumed",
+     "source": "none establishing the condition",
+     "rule": "7.02(n)"
+    }
+   ]
   }
  },
  {
   "label": "base",
   "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A1",
+    "A2"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 1023
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 1023
+   }
+  },
+  "structural_paths": 1023,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 1023,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "aa": {
+    "result": "BOUNDS",
+    "lower_bound": 22000000,
+    "sufficient_upper_bound": 97000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
    "assumptions_on": [
     "A1",
     "A3"
@@ -1301,93 +1459,30 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "full_trademark",
-   "usd": 347000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 0,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 0,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 261,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 261,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A2",
-    "A3"
-   ],
-   "assumption_text": {
-    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
-    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
-   },
-   "scenario_facts": [
+   "condition_status": [
     {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
     },
     {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
     }
    ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
@@ -1397,27 +1492,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1429,196 +1530,18 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
-    "feasible": 0,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 413
    },
    "verifier": {
-    "feasible": 0,
-    "indeterminate": 0
+    "feasible": 8,
+    "indeterminate": 413
    }
   },
-  "structural_paths": 443,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 443,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A2",
-    "A3"
-   ],
-   "assumption_text": {
-    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
-    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
-   },
-   "scenario_facts": [
-    {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
-    },
-    {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
-    }
-   ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "full_trademark",
-   "usd": 347000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 0,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 0,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 443,
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "why_not": {
-   "structural_paths_all_infeasible_even_relaxed": 443,
-   "sample_denials": {
-    "designate G": [
-     "no exception in designation"
-    ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
-    ]
-   }
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A1",
-    "A2",
-    "A3"
-   ],
-   "assumption_text": {
-    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
-    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
-    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
-   },
-   "scenario_facts": [
-    {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
-    },
-    {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
-    }
-   ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "company_certified",
-   "usd": 250000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 36,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 36,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 627,
+  "structural_paths": 421,
   "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
@@ -1629,8 +1552,7 @@
    "allocation_usd": {
     "0": {
      "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "i_B_floor": 73000000
+     "n_floor": 100000000
     }
    },
    "steps": [
@@ -1643,193 +1565,11 @@
       ],
       "investments": [
        "7.02(c)(iv)",
-       "7.02(i).nlp",
        "7.02(n)"
       ]
      },
      "designated": [
       "7.02(c)(iv)",
-      "7.02(i).nlp"
-     ],
-     "capacity": {
-      "dispositions": "capped",
-      "investments": "capped"
-     },
-     "effects": [
-      "7.05.free_and_clear",
-      "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(i).nlp: acquired business permitted under Section 7.07",
-      "7.02(i).nlp: no Default immediately before and after",
-      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-      "7.02(i).nlp: Responsible Officer certificate",
-      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    },
-    {
-     "action": "transfer[contribution] Nd->U",
-     "roles": "nlp_rs->unrestricted",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(n)",
-       "7.02(t)"
-      ]
-     },
-     "designated": [
-      "7.02(t)"
-     ],
-     "capacity": {
-      "dispositions": "uncapped",
-      "investments": "uncapped"
-     },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
-    }
-   ]
-  },
-  "dependencies": {
-   "interpretation": [
-    "A1",
-    "A2",
-    "A3"
-   ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(i).nlp: Responsible Officer certificate",
-    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-    "7.02(i).nlp: acquired business permitted under Section 7.07",
-    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-    "7.02(i).nlp: no Default immediately before and after",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
-   ]
-  },
-  "other_paths": {
-   "feasible": 36,
-   "indeterminate": 0
-  }
- },
- {
-  "label": "base",
-  "model": {
-   "rules_sha256": "cf98bdd40ef0ac7ab92bb1ec0d96cf7fdf48bcf6bea89f1e79fecff0d53d7276",
-   "assumptions_on": [
-    "A1",
-    "A2",
-    "A3"
-   ],
-   "assumption_text": {
-    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
-    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
-    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
-   },
-   "scenario_facts": [
-    {
-     "pattern": "BrandTwo",
-     "holds": false,
-     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
-    },
-    {
-     "pattern": "Securitization",
-     "holds": false,
-     "why": "No securitization financing is part of the transaction (same source)."
-    }
-   ],
-   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
-  },
-  "bound": {
-   "depth": 3,
-   "entities": {
-    "H": {
-     "role": "holdings",
-     "foreign": false
-    },
-    "B": {
-     "role": "borrower",
-     "foreign": false
-    },
-    "G": {
-     "role": "guarantor",
-     "foreign": false
-    },
-    "Nd": {
-     "role": "nlp_rs",
-     "foreign": false
-    },
-    "Nf": {
-     "role": "nlp_rs",
-     "foreign": true
-    },
-    "U": {
-     "role": "unrestricted",
-     "foreign": false
-    }
-   },
-   "start_owner": "G",
-   "mode": "reference (no pruning)"
-  },
-  "value": {
-   "name": "full_trademark",
-   "usd": 347000000
-  },
-  "independent_verifier": {
-   "agrees": true,
-   "engine": {
-    "feasible": 12,
-    "indeterminate": 0
-   },
-   "verifier": {
-    "feasible": 12,
-    "indeterminate": 0
-   }
-  },
-  "structural_paths": 627,
-  "verdict": "CANDIDATE_PATH",
-  "witness": {
-   "shape": [
-    "guarantor->nlp_rs",
-    "nlp_rs->unrestricted"
-   ],
-   "class": "uncapped-entry",
-   "allocation_usd": {
-    "0": {
-     "c_iv_floor": 150000000,
-     "available_amount": 27000000,
-     "i_B_floor": 75000000,
-     "n_floor": 95000000
-    }
-   },
-   "steps": [
-    {
-     "action": "transfer[contribution] G->Nd",
-     "roles": "guarantor->nlp_rs",
-     "used": {
-      "dispositions": [
-       "7.05(e).investments"
-      ],
-      "investments": [
-       "7.02(c)(iv)",
-       "7.02(i).nlp",
-       "7.02(n)"
-      ]
-     },
-     "designated": [
-      "7.02(c)(iv)",
-      "7.02(i).nlp",
       "7.02(n)"
      ],
      "capacity": {
@@ -1839,18 +1579,6 @@
      "effects": [
       "7.05.free_and_clear",
       "9.11(a)(ii)"
-     ],
-     "assumptions": [
-      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-      "7.02(i).nlp: acquired business permitted under Section 7.07",
-      "7.02(i).nlp: no Default immediately before and after",
-      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-      "7.02(i).nlp: Responsible Officer certificate",
-      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
      ]
     },
     {
@@ -1872,36 +1600,797 @@
       "dispositions": "uncapped",
       "investments": "uncapped"
      },
-     "effects": [],
-     "assumptions": [
-      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
-      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
-     ]
+     "effects": []
     }
    ]
   },
+  "other_paths": {
+   "feasible": 8,
+   "indeterminate": 413
+  },
+  "search_result": "CANDIDATE_PATH",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 0,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ],
+   "conditions": [
+    {
+     "text": "intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+     "type": "HARD",
+     "status": "proven",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')",
+     "rule": "7.02(c)(iv)"
+    },
+    {
+     "text": "Available Amount portion: no Event of Default continuing or resulting",
+     "type": "HARD",
+     "status": "assumed",
+     "source": "none establishing the condition",
+     "rule": "7.02(n)"
+    }
+   ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A1",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 421
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 421
+   }
+  },
+  "structural_paths": 421,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 421,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 97000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 743
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 743
+   }
+  },
+  "structural_paths": 743,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 743,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 150000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 743
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 743
+   }
+  },
+  "structural_paths": 743,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 743,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 247000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 8,
+    "indeterminate": 1015
+   },
+   "verifier": {
+    "feasible": 8,
+    "indeterminate": 1015
+   }
+  },
+  "structural_paths": 1023,
+  "verdict": "CANDIDATE_PATH",
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "c_iv_floor": 150000000,
+     "n_floor": 100000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(i).nlp",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(n)"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": []
+    }
+   ]
+  },
+  "other_paths": {
+   "feasible": 8,
+   "indeterminate": 1015
+  },
+  "search_result": "CANDIDATE_PATH",
   "dependencies": {
    "interpretation": [
     "A1",
     "A2",
     "A3"
    ],
-   "conditions_assumed": [
-    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
-    "7.02(i).nlp: Responsible Officer certificate",
-    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
-    "7.02(i).nlp: acquired business permitted under Section 7.07",
-    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
-    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
-    "7.02(i).nlp: no Default immediately before and after",
-    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
-    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   "aa": {
+    "result": "PROVEN_MIN_AA",
+    "min_aa": 0,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ],
+   "conditions": [
+    {
+     "text": "intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+     "type": "HARD",
+     "status": "proven",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')",
+     "rule": "7.02(c)(iv)"
+    },
+    {
+     "text": "Available Amount portion: no Event of Default continuing or resulting",
+     "type": "HARD",
+     "status": "assumed",
+     "source": "none establishing the condition",
+     "rule": "7.02(n)"
+    }
    ]
+  }
+ },
+ {
+  "label": "base",
+  "model": {
+   "rules_sha256": "41d778ecf8f842f1a5f51b3dafb8a3494ba009e8a7103c0926276ceff2815e71",
+   "assumptions_on": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
-  "other_paths": {
-   "feasible": 12,
-   "indeterminate": 0
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false,
+     "parent": null
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false,
+     "parent": "H"
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false,
+     "parent": "B"
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true,
+     "parent": "B"
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false,
+     "parent": "B"
+    }
+   },
+   "start_owner": "G",
+   "mode": "reference (no pruning)"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "independent_verifier": {
+   "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 1023
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 1023
+   }
+  },
+  "structural_paths": 1023,
+  "verdict": "INDETERMINATE",
+  "unknowns": [
+   "condition 6.14: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization Subsidiary in connection with a Qualified Securitization Financing) [QUANT/unknown]",
+   "condition 7.02(i).lp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).lp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "condition 7.02(i).nlp_actor: Responsible Officer certificate [PROCEDURAL/unknown]",
+   "condition 7.02(i).nlp_actor: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate [QUANT/unknown]",
+   "pool available_amount: amount unknown"
+  ],
+  "indeterminate_paths": 1023,
+  "search_result": "INDETERMINATE",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "BOUNDS",
+    "lower_bound": 22000000,
+    "sufficient_upper_bound": 97000000,
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  }
 ]

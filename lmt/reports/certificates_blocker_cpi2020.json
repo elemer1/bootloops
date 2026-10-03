@@ -2,7 +2,7 @@
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [],
    "assumption_text": {},
    "scenario_facts": [
@@ -17,6 +17,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -24,27 +50,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -56,6 +88,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -71,14 +105,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -106,14 +136,29 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [],
    "assumption_text": {},
    "scenario_facts": [
@@ -128,6 +173,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -135,27 +206,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -167,6 +244,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -182,14 +261,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -217,14 +292,29 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1"
    ],
@@ -243,6 +333,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -250,27 +366,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -282,6 +404,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -297,14 +421,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -332,14 +452,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1"
    ],
@@ -358,6 +495,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -365,27 +528,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -397,6 +566,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -412,14 +583,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -447,14 +614,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A2"
    ],
@@ -473,6 +657,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -480,27 +690,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -512,6 +728,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -527,14 +745,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -562,14 +776,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A2"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A2"
    ],
@@ -588,6 +819,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -595,27 +852,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -627,6 +890,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -642,14 +907,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -677,14 +938,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A2"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A3"
    ],
@@ -703,6 +981,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -710,27 +1014,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -742,6 +1052,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -757,14 +1069,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -792,14 +1100,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A3"
    ],
@@ -818,6 +1143,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -825,27 +1176,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -857,6 +1214,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -872,14 +1231,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -907,14 +1262,31 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A2"
@@ -935,6 +1307,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -942,27 +1340,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -974,6 +1378,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -989,14 +1395,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1024,14 +1426,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A2"
@@ -1052,6 +1472,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1059,27 +1505,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1091,6 +1543,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1106,14 +1560,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1141,14 +1591,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A3"
@@ -1169,6 +1637,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1176,27 +1670,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1208,6 +1708,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1223,14 +1725,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1258,14 +1756,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A3"
@@ -1286,6 +1802,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1293,27 +1835,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1325,6 +1873,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1340,14 +1890,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1375,14 +1921,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A2",
     "A3"
@@ -1403,6 +1967,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1410,27 +2000,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1442,6 +2038,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1457,14 +2055,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1492,14 +2086,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A2",
     "A3"
@@ -1520,6 +2132,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1527,27 +2165,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1559,6 +2203,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1574,14 +2220,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1609,14 +2251,32 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A2",
@@ -1639,6 +2299,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1646,27 +2332,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1678,6 +2370,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1693,14 +2387,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1728,14 +2418,33 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  },
  {
   "label": "blocker_cpi2020",
   "model": {
-   "rules_sha256": "3681dce493b35b7f1cba31e1a0c1ae85cca678f1c866d433916cfc3c6fc716b7",
+   "rules_sha256": "244996e4906211d03bd66cdbead3b0ceaaf4bc526f16c69049dc8c17038f2ad2",
    "assumptions_on": [
     "A1",
     "A2",
@@ -1758,6 +2467,32 @@
      "why": "No securitization financing is part of the transaction (same source)."
     }
    ],
+   "condition_status": [
+    {
+     "pattern": "intercompany loans under this clause evidenced by notes",
+     "status": "proven",
+     "why": "Inapplicable to this step: each transfer was a contribution to equity capital, not an intercompany loan.",
+     "source": "Complaint, Index No. 654397/2017, para. 59 (Ocean Tomo letter: 'each transfer represented a contribution to equity capital')"
+    },
+    {
+     "pattern": "Available Amount portion: no Event of Default",
+     "status": "assumed",
+     "why": "No source reviewed shows an Event of Default continuing on 2016-12-05; the lenders later alleged that the transfer itself caused Defaults (complaint para. 81). Not verified either way.",
+     "source": "none establishing the condition"
+    },
+    {
+     "pattern": "Total Leverage Ratio <= 6\\.0",
+     "status": "unknown",
+     "why": "The Total Leverage Ratio on a Pro Forma Basis at the relevant date is not established from verified sources.",
+     "source": "none"
+    },
+    {
+     "pattern": "(CFO|Responsible Officer|officer) certificate",
+     "status": "unknown",
+     "why": "No evidence reviewed that the certificate this basket requires was delivered.",
+     "source": "none"
+    }
+   ],
    "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
   },
   "bound": {
@@ -1765,27 +2500,33 @@
    "entities": {
     "H": {
      "role": "holdings",
-     "foreign": false
+     "foreign": false,
+     "parent": null
     },
     "B": {
      "role": "borrower",
-     "foreign": false
+     "foreign": false,
+     "parent": "H"
     },
     "G": {
      "role": "guarantor",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nd": {
      "role": "nlp_rs",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     },
     "Nf": {
      "role": "nlp_rs",
-     "foreign": true
+     "foreign": true,
+     "parent": "B"
     },
     "U": {
      "role": "unrestricted",
-     "foreign": false
+     "foreign": false,
+     "parent": "B"
     }
    },
    "start_owner": "G",
@@ -1797,6 +2538,8 @@
   },
   "independent_verifier": {
    "agrees": true,
+   "paths_agree": true,
+   "aa_thresholds_agree": true,
    "engine": {
     "feasible": 0,
     "indeterminate": 0
@@ -1812,14 +2555,10 @@
    "structural_paths_all_infeasible_even_relaxed": 0,
    "sample_denials": {
     "designate G": [
-     "no exception in designation",
      "prohibited by CPI.5.13(iv)"
     ],
-    "designate Nd": [
-     "no exception in designation"
-    ],
-    "designate Nf": [
-     "no exception in designation"
+    "transfer[contribution] B->G": [
+     "prohibited by CPI.6.03(e)"
     ],
     "transfer[contribution] B->H": [
      "prohibited by CPI.6.03(e)"
@@ -1847,8 +2586,27 @@
     ],
     "transfer[dividend] B->H": [
      "prohibited by CPI.6.03(e)"
+    ],
+    "transfer[sale] B->G": [
+     "prohibited by CPI.6.03(e)"
     ]
    }
+  },
+  "search_result": "BOUNDED_NON_REACHABILITY",
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "aa": {
+    "result": "NO_AA_SUFFICES",
+    "parameter": "available_amount",
+    "premise": "rules, interpretation profile, other facts and all other pools fixed; only the Available Amount pool varies (feasibility is monotone in it only under this premise)"
+   },
+   "missing_facts": [
+    "pool available_amount: amount unknown"
+   ]
   }
  }
 ]

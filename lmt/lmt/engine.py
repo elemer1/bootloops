@@ -16,6 +16,8 @@ from dataclasses import dataclass, field
 
 import yaml
 
+from .conditions import RANK, Resolver, worst
+
 ROLES = ("holdings", "borrower", "guarantor", "nlp_rs", "unrestricted")
 LOAN_PARTY = {"holdings", "borrower", "guarantor"}
 RESTRICTED_SUB = {"guarantor", "nlp_rs"}
@@ -94,6 +96,7 @@ class Universe:
     asset: str = "ip"
     start_owner: str = "G"
     facts: list = field(default_factory=list)   # [{"pattern": regex, "holds": bool, "why": str}]
+    condition_status: list = field(default_factory=list)  # [{"pattern", "status", "why", "source"}]
 
     def condition_fails(self, cond):
         """A rule condition is known false in this scenario if a fact with holds=False matches it."""
@@ -113,13 +116,13 @@ def default_universe():
     """One entity of every role the vocabulary allows. A modeling assumption, stated
     in every certificate: the borrower group has (or can form) such entities."""
     return Universe(entities={
-        "H": {"role": "holdings", "foreign": False},
-        "B": {"role": "borrower", "foreign": False},
-        "G": {"role": "guarantor", "foreign": False},
-        "Nd": {"role": "nlp_rs", "foreign": False},
-        "Nf": {"role": "nlp_rs", "foreign": True},
-        "U": {"role": "unrestricted", "foreign": False},
-    })
+        "H": {"role": "holdings", "foreign": False, "parent": None},
+        "B": {"role": "borrower", "foreign": False, "parent": "H"},
+        "G": {"role": "guarantor", "foreign": False, "parent": "B"},
+        "Nd": {"role": "nlp_rs", "foreign": False, "parent": "B"},
+        "Nf": {"role": "nlp_rs", "foreign": True, "parent": "B"},
+        "U": {"role": "unrestricted", "foreign": False, "parent": "B"},
+    })   # ownership tree: H -> B -> {G, Nd, Nf, U}; dividends run only to the payer's parent
 
 
 @dataclass(frozen=True)
@@ -144,6 +147,10 @@ class Verdict:
     assumptions: list = field(default_factory=list)
     capacity: dict = field(default_factory=dict)    # category -> capped | uncapped
     designated: list = field(default_factory=list)  # investments basket(s) the step is booked under
+    rule_dep: dict = field(default_factory=dict)    # rule id -> (effective status, [conditions])
+    cat_dep: dict = field(default_factory=dict)     # non-investment category -> (status, [conditions], rule id)
+    cond_status: str = "proven"                     # worst condition status the step relies on
+    conditions: list = field(default_factory=list)  # conditions the step relies on (resolved)
 
 
 class Engine:
@@ -155,7 +162,15 @@ class Engine:
         self.assumptions = declared if assumptions is None else set(assumptions)
         self.rules = [r for r in doc["rules"] if not r.get("assumption") or r["assumption"] in self.assumptions]
         self.u = universe or default_universe()
+        self.resolver = Resolver(self.u.condition_status, self.u.facts)
+        self.by_id = {r["id"]: r for r in self.rules}
+        self._status_memo = {}
+        self._eff_memo = {}
         self.by_kind = {k: [r for r in self.rules if r["kind"] == k] for k in KINDS}
+
+    @staticmethod
+    def u_condition_status(universe):
+        return (universe.condition_status if universe else []) or []
 
     # ---- action enumeration
     def actions(self, s: State):
@@ -165,8 +180,8 @@ class Engine:
                 for form in FORMS:
                     if form == "license":
                         continue  # licenses move use rights, not title; not tracked in Phase 0
-                    if form == "dividend" and s.role(dst) in ("unrestricted",):
-                        continue  # an Unrestricted Subsidiary cannot be the parent of a restricted entity
+                    if form == "dividend" and self.u.entities[s.owner].get("parent") != dst:
+                        continue  # a dividend runs only to the payer's parent in the ownership tree
                     yield Action("transfer", src=s.owner, dst=dst, form=form)
         for e in ents:
             if s.role(e) in RESTRICTED_SUB:
@@ -215,7 +230,7 @@ class Engine:
         for r in self.by_kind["exception"]:
             if r["category"] != cat or r["id"] in excluded or not self._matches(r, a, s):
                 continue
-            if any(self.u.condition_fails(c) for c in r.get("conditions") or []):
+            if self.rule_status(r["id"])[0] == "refuted":
                 continue
             fb = r.get("funded_by")
             # Whole-asset model: the onward transfer carries the full value, so ALL of it must have
@@ -236,7 +251,7 @@ class Engine:
     def capacity_of(self, cat, ids, a, s, depth=0):
         """'uncapped' if some permitting rule is unlimited; a cross-reference (`via`) rule inherits the
         capacity of the rules it points to."""
-        ex = {r["id"]: r for r in self.rules}
+        ex = self.by_id
         for rid in ids:
             r = ex[rid]
             via = r.get("via")
@@ -270,16 +285,40 @@ class Engine:
                 v.ok = False
                 v.denied.append(f"no exception in {cat}")
         if v.ok:
-            ex = {r["id"]: r for r in self.rules}
             v.capacity = {cat: self.capacity_of(cat, ids, a, s) for cat, ids in v.used.items()}
-            for ids in v.used.values():
+            for cat, ids in v.used.items():
                 for rid in ids:
-                    r = ex[rid]
-                    if r.get("capacity") == "capped":
-                        v.assumptions.append(f"{rid}: capacity sufficient ({r.get('capacity_note', 'capped')})")
-                    for c in r.get("conditions") or []:
-                        v.assumptions.append(f"{rid}: {c}")
+                    v.rule_dep[rid] = self.effective(rid, a, s)
+                if cat != "investments":
+                    best = min(ids, key=lambda r: (RANK[v.rule_dep[r][0]], len(v.rule_dep[r][1]), r))
+                    v.cat_dep[cat] = (v.rule_dep[best][0], v.rule_dep[best][1], best)
         return v
+
+    def rule_status(self, rid):
+        if rid not in self._status_memo:
+            self._status_memo[rid] = self.resolver.rule_status(self.by_id[rid])
+        return self._status_memo[rid]
+
+    def effective(self, rid, a, s, depth=0):
+        """(status, conditions) a rule relies on: its own conditions, and for a cross-reference the
+        best-supported rule it points to."""
+        key = (rid, a, s, depth)
+        if key not in self._eff_memo:
+            self._eff_memo[key] = self._effective(rid, a, s, depth)
+        return self._eff_memo[key]
+
+    def _effective(self, rid, a, s, depth):
+        ex = self.by_id
+        st, cs = self.rule_status(rid)
+        cs = [{**c, "rule": rid} for c in cs]
+        via = ex[rid].get("via")
+        if via and depth < 4:
+            inner = self.permitted_in(via["category"], a, s, frozenset(via.get("except", [])) | {rid})
+            if inner:
+                deps = [self.effective(i, a, s, depth + 1) for i in inner]
+                b = min(deps, key=lambda d: (RANK[d[0]], len(d[1])))
+                st, cs = worst([st, b[0]]), cs + b[1]
+        return st, cs
 
     def designations(self, a: Action, s: State, v: Verdict):
         """How the step can be booked under the investments covenant.
@@ -293,6 +332,7 @@ class Engine:
         import itertools
         ids = v.used.get("investments")
         if not ids:
+            self._set_conditions(v, booked=[])
             return [v]
         capped = [r for r in ids if self.capacity_of("investments", [r], a, s) == "capped"]
         uncapped = [r for r in ids if r not in capped]
@@ -304,8 +344,30 @@ class Engine:
             vd.designated = sorted(b)
             vd.capacity = dict(v.capacity)
             vd.capacity["investments"] = "capped" if b <= set(capped) else "uncapped"
+            self._set_conditions(vd, booked=sorted(b))
             out.append(vd)
         return out
+
+    def _set_conditions(self, v, booked):
+        """Every booked basket must hold (the value is split across them); for other categories the
+        best-supported permitting rule is relied on."""
+        sts, cs = [], []
+        for rid in booked:
+            st, c = v.rule_dep[rid]
+            sts.append(st)
+            cs += c
+        for cat, (st, c, _) in v.cat_dep.items():
+            sts.append(st)
+            cs += c
+        v.cond_status = worst(sts)
+        seen, uniq = set(), []
+        for c in cs:
+            k = (c["rule"], c["text"])
+            if k not in seen:
+                seen.add(k)
+                uniq.append(c)
+        v.conditions = uniq
+        v.assumptions = [f"{c['rule']}: {c['text']} [{c['type']}/{c['status']}]" for c in uniq if c["status"] != "proven"]
 
     def apply(self, a: Action, s: State, v: Verdict) -> tuple[State, list]:
         roles = dict(s.roles)
@@ -377,6 +439,7 @@ def search(engine: Engine, depth=4, goal=goal_leak, no_sale=True):
                         "entity": a.entity or "", "holder": s.owner,
                         "roles": f"{s.role(a.src or a.entity)}->{s2.role(s2.owner)}",
                         "used": vd.used, "designated": vd.designated, "capacity": vd.capacity,
+                        "cond_status": vd.cond_status, "conditions": vd.conditions,
                         "effects": fired, "assumptions": vd.assumptions}
                 frontier.append((s2, path + [step]))
     return {
@@ -434,4 +497,5 @@ def load_universe(path):
         doc = yaml.safe_load(f)
     u = default_universe()
     u.facts = doc.get("facts", [])
+    u.condition_status = doc.get("condition_status", [])
     return u

@@ -106,10 +106,12 @@ lmt/lint.py      verbatim quotes, coverage, FOREIGN, multi-document release grou
 lmt/closure.py   cross-reference closure
 lmt/certify.py   certificates per (assumption profile, asset value) + verifier cross-check
 lmt/case.py      quick table of the backtest
+lmt/threshold.py Available Amount threshold query (bisection; verify.py has the closed form)
+lmt/conditions.py condition type x status resolution
 lmt/tools.py     encoding diff, perturbation, overlays
 rules/           SCHEMA.md, encodings A/B, adjudicated rules, scenario, blocker overlays
 reports/         generated certificates
-tests/           synthetic contract, regression counterexamples, J.Crew acceptance (42, ~45 s)
+tests/           synthetic contract, regression counterexamples, Phase 1a, J.Crew acceptance (93, ~50 s)
 ```
 
 Run from `lmt/`: `python3 -m pytest tests -q`; `python3 -m lmt.certify --out reports`.
