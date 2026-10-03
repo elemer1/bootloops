@@ -15,7 +15,7 @@ import yaml
 from lmt import verify
 from lmt.closure import check as closure_check
 from lmt.engine import Engine, classify, load_rules, load_universe, search, skeleton, validate
-from lmt.ledger import check_path
+from lmt.ledger import check_path, funded_by_map
 from lmt.lint import lint
 from lmt.source import load
 from lmt.tools import first_step_table, overlay, path_signature, perturb, perturbed_universe, remove
@@ -30,10 +30,11 @@ SRC = load("jcrew2014")
 V250, V347 = CAP["values"]["company_certified"], CAP["values"]["full_trademark"]
 
 
-def feasible(doc, assumptions, value, depth=3, universe=None):
+def feasible(doc, assumptions, value, depth=3, universe=None, status="feasible"):
     cert = search(Engine(doc, universe or U, set(assumptions)), depth=depth)
+    fb = funded_by_map(doc)
     return [(p, led) for p in cert["paths"]
-            if (led := check_path(p, value, CAP["pools"], CAP["rule_pools"]))["feasible"]]
+            if (led := check_path(p, value, CAP["pools"], CAP["rule_pools"], fb))["status"] == status]
 
 
 def overlay_file(name):
@@ -151,16 +152,17 @@ def test_T6_renaming_and_shuffling_do_not_change_results(seed):
 
 # ---- independent verifier --------------------------------------------------------------------
 
-def test_independent_verifier_agrees():
+def test_independent_verifier_agrees_on_full_path_sets():
+    """Reference mode (no pruning on either side): the feasible and the indeterminate signature
+    sets must be identical, with funded_by source constraints applied on both sides."""
     def esig(p):
         return tuple((st["roles"], st["action"].split(" ")[0], tuple(sorted(st.get("designated") or []))) for st in p)
+    fb = funded_by_map(RULES)
     for prof in [(), ("A1",)]:
-        chk = verify.Checker(RULES, SC, set(prof))
-        vpaths = chk.paths(3)
+        vpaths = verify.Checker(RULES, SC, set(prof)).paths(3)
         for vname, value in CAP["values"].items():
-            vs = {verify.signature(p) for p in vpaths if verify.hall_feasible(p, value, CAP["pools"], CAP["rule_pools"])}
-            es = {esig(p) for p, _ in feasible(RULES, set(prof), value)}
-            assert bool(vs) == bool(es)
-            assert es <= vs
-            m = min((len(s) for s in vs), default=0)
-            assert {s for s in vs if len(s) == m} <= es
+            for status in ("feasible", "indeterminate"):
+                vs = {verify.signature(p) for p in vpaths
+                      if verify.hall_status(p, value, CAP["pools"], CAP["rule_pools"], fb) == status}
+                es = {esig(p) for p, _ in feasible(RULES, set(prof), value, status=status)}
+                assert es == vs, (prof, vname, status)

@@ -1,48 +1,48 @@
-base             (none)    company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             (none)    full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A1        company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'n_floor': 73000000}}
-base             A1        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A2        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A2        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A3        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A3        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A1+A2     company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 73000000}}
-base             A1+A2     full_trademark     WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-base             A1+A3     company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'n_floor': 73000000}}
-base             A1+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A2+A3     company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A2+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-base             A1+A2+A3  company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 73000000}}
-base             A1+A2+A3  full_trademark     WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-blocker_cpi2020  (none)    company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  (none)    full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A2        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A2        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A3        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A3        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A2     company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A2     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A3     company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A2+A3     company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A2+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A2+A3  company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_cpi2020  A1+A2+A3  full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     (none)    company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     (none)    full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A1        company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'n_floor': 73000000}}
-blocker_weak     A1        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A2        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A2        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A3        company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A3        full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A1+A2     company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 73000000}}
-blocker_weak     A1+A2     full_trademark     WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
-blocker_weak     A1+A3     company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'n_floor': 73000000}}
-blocker_weak     A1+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A2+A3     company_certified  BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A2+A3     full_trademark     BOUNDED_NON_REACHABILITY   verifier=AGREE
-blocker_weak     A1+A2+A3  company_certified  WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 73000000}}
-blocker_weak     A1+A2+A3  full_trademark     WITNESS                    verifier=AGREE  guarantor->nlp_rs | nlp_rs->unrestricted {0: {'available_amount': 27000000, 'c_iv_floor': 150000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
+base             (none)    company_certified  BOUNDED_NON_REACHABILITY  
+base             (none)    full_trademark     BOUNDED_NON_REACHABILITY  
+base             A1        company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
+base             A1        full_trademark     BOUNDED_NON_REACHABILITY  
+base             A2        company_certified  BOUNDED_NON_REACHABILITY  
+base             A2        full_trademark     BOUNDED_NON_REACHABILITY  
+base             A3        company_certified  BOUNDED_NON_REACHABILITY  
+base             A3        full_trademark     BOUNDED_NON_REACHABILITY  
+base             A1+A2     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
+base             A1+A2     full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
+base             A1+A3     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
+base             A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+base             A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
+base             A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+base             A1+A2+A3  company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
+base             A1+A2+A3  full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
+blocker_cpi2020  (none)    company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  (none)    full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1        company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A2        company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A2        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A3        company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A3        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A2     company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A2     full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A3     company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A2+A3  company_certified  BOUNDED_NON_REACHABILITY  
+blocker_cpi2020  A1+A2+A3  full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     (none)    company_certified  BOUNDED_NON_REACHABILITY  
+blocker_weak     (none)    full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A1        company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
+blocker_weak     A1        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A2        company_certified  BOUNDED_NON_REACHABILITY  
+blocker_weak     A2        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A3        company_certified  BOUNDED_NON_REACHABILITY  
+blocker_weak     A3        full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A1+A2     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
+blocker_weak     A1+A2     full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}
+blocker_weak     A1+A3     company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'n_floor': 73000000}}
+blocker_weak     A1+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A2+A3     company_certified  BOUNDED_NON_REACHABILITY  
+blocker_weak     A2+A3     full_trademark     BOUNDED_NON_REACHABILITY  
+blocker_weak     A1+A2+A3  company_certified  CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 73000000}}
+blocker_weak     A1+A2+A3  full_trademark     CANDIDATE_PATH              guarantor->nlp_rs | nlp_rs->unrestricted {0: {'c_iv_floor': 150000000, 'available_amount': 27000000, 'i_B_floor': 75000000, 'n_floor': 95000000}}

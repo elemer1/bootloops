@@ -48,23 +48,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 65,
-  "states_expanded": 83,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 187,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 65,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 187,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -127,23 +131,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 65,
-  "states_expanded": 83,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 187,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 65,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 187,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -210,20 +218,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 95,
-  "states_expanded": 107,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 5,
-   "engine_feasible_signatures": 1
+   "engine": {
+    "feasible": 5,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 5,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 261,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -232,8 +245,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "n_floor": 73000000
     }
    },
@@ -295,6 +308,21 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 10,
+   "indeterminate": 0
   }
  },
  {
@@ -350,23 +378,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 95,
-  "states_expanded": 107,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 261,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 95,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 261,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -433,23 +465,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 180,
-  "states_expanded": 208,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 443,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 180,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 443,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -516,23 +552,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 180,
-  "states_expanded": 208,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 443,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 180,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 443,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -599,23 +639,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 65,
-  "states_expanded": 83,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 187,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 65,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 187,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -682,23 +726,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 65,
-  "states_expanded": 83,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 187,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 65,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 187,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -767,20 +815,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 250,
-  "states_expanded": 264,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 18,
-   "engine_feasible_signatures": 3
+   "engine": {
+    "feasible": 18,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 18,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 627,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -789,8 +842,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "i_B_floor": 73000000
     }
    },
@@ -859,6 +912,28 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(i).nlp: Responsible Officer certificate",
+    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+    "7.02(i).nlp: acquired business permitted under Section 7.07",
+    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+    "7.02(i).nlp: no Default immediately before and after",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 36,
+   "indeterminate": 0
   }
  },
  {
@@ -916,20 +991,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 250,
-  "states_expanded": 264,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 6,
-   "engine_feasible_signatures": 1
+   "engine": {
+    "feasible": 6,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 6,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 627,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -938,8 +1018,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "i_B_floor": 75000000,
      "n_floor": 95000000
     }
@@ -1010,6 +1090,28 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(i).nlp: Responsible Officer certificate",
+    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+    "7.02(i).nlp: acquired business permitted under Section 7.07",
+    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+    "7.02(i).nlp: no Default immediately before and after",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 12,
+   "indeterminate": 0
   }
  },
  {
@@ -1067,20 +1169,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 95,
-  "states_expanded": 107,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 5,
-   "engine_feasible_signatures": 1
+   "engine": {
+    "feasible": 5,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 5,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 261,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -1089,8 +1196,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "n_floor": 73000000
     }
    },
@@ -1152,6 +1259,22 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A3"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 10,
+   "indeterminate": 0
   }
  },
  {
@@ -1209,23 +1332,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 95,
-  "states_expanded": 107,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 261,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 95,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 261,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -1294,23 +1421,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 180,
-  "states_expanded": 208,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 443,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 180,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 443,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -1379,23 +1510,27 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "BOUNDED_NON_REACHABILITY",
-  "structural_paths": 180,
-  "states_expanded": 208,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 0,
-   "engine_feasible_signatures": 0
+   "engine": {
+    "feasible": 0,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 0,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 443,
+  "verdict": "BOUNDED_NON_REACHABILITY",
   "why_not": {
-   "structural_paths_all_capacity_infeasible": 180,
-   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "structural_paths_all_infeasible_even_relaxed": 443,
    "sample_denials": {
     "designate G": [
      "no exception in designation"
@@ -1466,20 +1601,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "company_certified",
    "usd": 250000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 250,
-  "states_expanded": 264,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 18,
-   "engine_feasible_signatures": 3
+   "engine": {
+    "feasible": 18,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 18,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 627,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -1488,8 +1628,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "i_B_floor": 73000000
     }
    },
@@ -1558,6 +1698,29 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(i).nlp: Responsible Officer certificate",
+    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+    "7.02(i).nlp: acquired business permitted under Section 7.07",
+    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+    "7.02(i).nlp: no Default immediately before and after",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 36,
+   "indeterminate": 0
   }
  },
  {
@@ -1617,20 +1780,25 @@
     }
    },
    "start_owner": "G",
-   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+   "mode": "reference (no pruning)"
   },
   "value": {
    "name": "full_trademark",
    "usd": 347000000
   },
-  "verdict": "WITNESS",
-  "structural_paths": 250,
-  "states_expanded": 264,
   "independent_verifier": {
    "agrees": true,
-   "verifier_feasible_signatures": 6,
-   "engine_feasible_signatures": 1
+   "engine": {
+    "feasible": 6,
+    "indeterminate": 0
+   },
+   "verifier": {
+    "feasible": 6,
+    "indeterminate": 0
+   }
   },
+  "structural_paths": 627,
+  "verdict": "CANDIDATE_PATH",
   "witness": {
    "shape": [
     "guarantor->nlp_rs",
@@ -1639,8 +1807,8 @@
    "class": "uncapped-entry",
    "allocation_usd": {
     "0": {
-     "available_amount": 27000000,
      "c_iv_floor": 150000000,
+     "available_amount": 27000000,
      "i_B_floor": 75000000,
      "n_floor": 95000000
     }
@@ -1711,6 +1879,29 @@
      ]
     }
    ]
+  },
+  "dependencies": {
+   "interpretation": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "conditions_assumed": [
+    "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+    "7.02(i).nlp: Responsible Officer certificate",
+    "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+    "7.02(i).nlp: acquired business permitted under Section 7.07",
+    "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+    "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+    "7.02(i).nlp: no Default immediately before and after",
+    "7.02(n): Available Amount portion: no Event of Default continuing or resulting",
+    "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)"
+   ]
+  },
+  "other_paths": {
+   "feasible": 12,
+   "indeterminate": 0
   }
  }
 ]

@@ -1,9 +1,30 @@
-"""Minimal capacity ledger: can the asset's value fit through the capped baskets a path uses?
+"""Capacity ledger: can the asset's value pass through the capped baskets a path books?
 
-Each capped investment step must carry the full asset value, drawn from the basket pools
-its permitting rules give access to; a pool shared by several rules or steps (e.g. the
-Available Amount builder basket) is consumed cumulatively. Feasibility is a bipartite
-max-flow (steps -> pools) in exact integers (US dollars). Uncapped steps need no capacity.
+Flow network for one whole path (exact integers, US dollars):
+
+    S -> step_i                 capacity = value       (each capped investment step carries the full value)
+    step_i -> (i, rule)         capacity = value       (a rule node PER STEP: amounts of different steps never mix)
+    (i, rule) -> pool           capacity = value       (the pools the rule draws on; pools are shared across steps)
+    pool -> T                   capacity = pool amount
+
+Source eligibility (`funded_by`) is enforced on rule nodes, not pools: when a step is booked
+under a rule with `funded_by`, the transfer that brought the asset to its current holder (the
+inbound transfer, not merely the previous action) may only route through rule nodes listed in
+`funded_by`. Pools shared between eligible and ineligible rules do not confer eligibility.
+
+Two models:
+- confirmed: a capped rule with no known pool gives no capacity. Used to PROVE feasibility.
+- relaxed (optimistic): each such rule gets its own unknown pool, bounded by a finite, justified
+  upper bound (value x number of capped steps). Used only to RULE OUT. The independent unknown
+  pool is not a model fact: only the AMOUNT is unknown; which rules a step may use and the
+  funded_by eligibility are still taken from the rule file, never invented here.
+
+Designations are deemed Investments at the designated entity's fair market value. Universe
+assumption: an entity holding the tracked asset is valued at the asset's value; the value of any
+other designated entity is unknown (confirmed model: cannot prove; relaxed model: 0).
+
+Status: "feasible" (confirmed model feasible), "indeterminate" (only the relaxed model is
+feasible), "infeasible" (even the relaxed model is not).
 """
 from __future__ import annotations
 
@@ -17,7 +38,7 @@ def _maxflow(cap, s, t):
         q = [s]
         while q and t not in parent:
             u = q.pop(0)
-            for v, c in cap[u].items():
+            for v, c in list(cap[u].items()):
                 if c > 0 and v not in parent:
                     parent[v] = u
                     q.append(v)
@@ -37,39 +58,106 @@ def _maxflow(cap, s, t):
         flow += f
 
 
-def check_path(path, value, pools, rule_pools, category="investments"):
-    """Returns {"feasible": bool, "demand": int, "routed": int, "steps": [...], "unpriced": [...]}.
+def inbound_transfer(path, j):
+    """Index of the transfer that brought the asset to the holder acting at step j, or None."""
+    holder = path[j].get("src")
+    for i in range(j - 1, -1, -1):
+        st = path[i]
+        if st.get("kind", "transfer") == "transfer" and st.get("dst") == holder:
+            return i
+    return None
 
-    pools: {pool: amount}; rule_pools: {rule id: [pool, ...]}. A capped rule with no pool
-    mapping is 'unpriced' and contributes no capacity (conservative)."""
+
+def _source_restrictions(path, funded_by):
+    """{step index: allowed rule ids} imposed by later funded_by steps; None if inconsistent."""
+    allowed = {}
+    for j, st in enumerate(path):
+        for rid in st.get("designated") or []:
+            elig = funded_by.get(rid)
+            if not elig:
+                continue
+            i = inbound_transfer(path, j)
+            if i is None:
+                return None
+            booked = set(path[i].get("designated") or [])
+            if not booked or not booked <= set(elig):
+                return None
+            allowed[i] = allowed.get(i, set(elig)) & set(elig)
+    return allowed
+
+
+def _route(path, value, pools, rule_pools, allowed, relaxed, category):
     cap = defaultdict(lambda: defaultdict(int))
     demand, steps, unpriced = 0, [], set()
+    n_capped = sum(1 for st in path if st["capacity"].get(category) == "capped")
+    bound = value * max(n_capped, 1)
     for i, st in enumerate(path):
         if st["capacity"].get(category) != "capped":
             steps.append({"step": i, "needs": 0})
             continue
+        need = value
+        if st.get("kind") == "designate" and st.get("entity") != st.get("holder"):
+            # deemed Investment = fair market value of the designated entity, which the model does not
+            # know: confirmed model cannot prove it fits; relaxed model takes the optimistic 0
+            if not relaxed:
+                return False, {"demand": None, "routed": 0, "steps": steps, "allocation": {},
+                               "unpriced": sorted(unpriced), "unknown_amount_step": i}
+            steps.append({"step": i, "needs": 0, "note": "designation of a non-holder: amount unknown"})
+            continue
         node = f"step{i}"
-        cap["S"][node] = value
-        demand += value
+        cap["S"][node] = need
+        demand += need
+        rules = st.get("designated") or st["used"].get(category, [])
+        if i in allowed:
+            rules = [r for r in rules if r in allowed[i]]
         reach = set()
-        for rid in (st.get("designated") or st["used"].get(category, [])):
-            for p in rule_pools.get(rid, []):
-                reach.add(p)
-            if rid not in rule_pools:
+        for rid in rules:
+            rn = f"{node}|{rid}"
+            cap[node][rn] = value
+            ps = rule_pools.get(rid)
+            if ps:
+                for p in ps:
+                    cap[rn][f"pool:{p}"] = value
+                    reach.add(p)
+            else:
                 unpriced.add(rid)
-        for p in reach:
-            cap[node][f"pool:{p}"] = value
-        steps.append({"step": i, "needs": value, "pools": sorted(reach)})
+                if relaxed:
+                    cap[rn][f"pool:unknown:{rid}"] = value
+                    cap[f"pool:unknown:{rid}"]["T"] = bound
+                    reach.add(f"unknown:{rid}")
+        steps.append({"step": i, "needs": value, "rules": sorted(rules), "pools": sorted(reach)})
     for p, amt in pools.items():
         cap[f"pool:{p}"]["T"] = amt
     orig = {u: dict(vs) for u, vs in cap.items()}
     routed = _maxflow(cap, "S", "T") if demand else 0
     alloc = {}
     for st in steps:
-        node = f"step{st['step']}"
-        for p in st.get("pools", []):
-            used = orig[node][f"pool:{p}"] - cap[node][f"pool:{p}"]
-            if used:
-                alloc.setdefault(st["step"], {})[p] = used
-    return {"feasible": routed == demand, "demand": demand, "routed": routed,
-            "steps": steps, "allocation": alloc, "unpriced": sorted(unpriced)}
+        for rid in st.get("rules", []):
+            rn = f"step{st['step']}|{rid}"
+            for pn, c0 in orig.get(rn, {}).items():
+                used = c0 - cap[rn][pn]
+                if used:
+                    alloc.setdefault(st["step"], {})[pn.split("pool:", 1)[1]] = used
+    return routed == demand, {"demand": demand, "routed": routed, "steps": steps,
+                              "allocation": alloc, "unpriced": sorted(unpriced)}
+
+
+def check_path(path, value, pools, rule_pools, funded_by=None, category="investments"):
+    """Three-state capacity check for one path. `feasible` is True only in the confirmed model."""
+    allowed = _source_restrictions(path, funded_by or {})
+    if allowed is None:
+        return {"feasible": False, "status": "infeasible", "reason": "funded_by source not satisfied",
+                "demand": 0, "routed": 0, "steps": [], "allocation": {}, "unpriced": []}
+    ok, info = _route(path, value, pools, rule_pools, allowed, relaxed=False, category=category)
+    if ok:
+        return {"feasible": True, "status": "feasible", **info}
+    ok_r, info_r = _route(path, value, pools, rule_pools, allowed, relaxed=True, category=category)
+    status = "indeterminate" if ok_r else "infeasible"
+    return {"feasible": False, "status": status, **info,
+            "relaxed_allocation": info_r["allocation"] if ok_r else {},
+            "unknowns": [{"rule": r, "unknown": "amount only (pool sharing and eligibility from the rule file)"}
+                         for r in info["unpriced"]]}
+
+
+def funded_by_map(doc):
+    return {r["id"]: list(r["funded_by"]) for r in doc["rules"] if r.get("funded_by")}

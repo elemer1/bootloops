@@ -152,3 +152,20 @@ exception with conservative fields and add a `note:`.
 - Booking: when several investment baskets permit a step, the engine branches over how the step
   is booked (a set of capped baskets sharing the value, or one uncapped basket). The booking
   decides capacity use and which `funded_by` conditions later steps can meet.
+
+## Search and ledger semantics (Phase 0.5)
+
+- **Reference mode:** every action sequence up to the depth bound is enumerated, with no
+  cross-path deduplication and no removal of repeated states. The only early stop: a path is not
+  extended once it reaches the goal. `verify.py` applies the same rule.
+- **`funded_by`:** checked against the transfer that brought the asset to its current holder
+  (designations in between do not break the link). That transfer's booking must be a non-empty
+  subset of the listed rules. Whole-asset moves only: partial transfers, mixed-source splitting and
+  source reallocation are not supported.
+- **Ledger:** step → per-step rule node → shared pool. Eligibility is enforced on rule nodes.
+  The confirmed model proves feasibility; the relaxed model (each unpriced capped rule gets its own
+  pool bounded by value × capped steps) is used only to rule out. Per path: feasible /
+  indeterminate / infeasible. Per query: CANDIDATE_PATH / INDETERMINATE / BOUNDED_NON_REACHABILITY,
+  or VERIFICATION_FAILED if engine and verifier disagree.
+- **Designations** are deemed Investments at the designated entity's fair market value: the
+  asset's value if it holds the tracked asset, otherwise unknown.

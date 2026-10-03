@@ -32,7 +32,8 @@ The route exists only if an in-kind contribution counts as "proceeds" under §7.
 $347M it does not, unless a second contested reading (§7.02(i)) adds $75M. A real
 post-J.Crew blocker (CPI Card Group, 2020) closes every path under every reading. A
 blocker that binds only Loan Parties is bypassed through the non-guarantor subsidiary.
-All 48 certificates agree with the independent verifier.
+All 48 certificates pass the independent-verifier gate (identical path sets on both sides,
+after the Phase 0.5 fixes described in the case report).
 
 ## Architecture: who is trusted with what
 
@@ -108,7 +109,7 @@ lmt/case.py      quick table of the backtest
 lmt/tools.py     encoding diff, perturbation, overlays
 rules/           SCHEMA.md, encodings A/B, adjudicated rules, scenario, blocker overlays
 reports/         generated certificates
-tests/           synthetic contract + J.Crew acceptance tests (30, ~15 s)
+tests/           synthetic contract, regression counterexamples, J.Crew acceptance (42, ~45 s)
 ```
 
 Run from `lmt/`: `python3 -m pytest tests -q`; `python3 -m lmt.certify --out reports`.

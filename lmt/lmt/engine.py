@@ -218,7 +218,11 @@ class Engine:
             if any(self.u.condition_fails(c) for c in r.get("conditions") or []):
                 continue
             fb = r.get("funded_by")
-            if fb and not (a.kind == "transfer" and set(fb) & s.arrived_via):
+            # Whole-asset model: the onward transfer carries the full value, so ALL of it must have
+            # arrived under an eligible basket. The inbound booking must be a non-empty SUBSET of
+            # funded_by (a label overlap would let $1 of eligible funding unlock $100 onward).
+            # Partial transfers, mixed-source splitting and source reallocation are not supported.
+            if fb and not (a.kind == "transfer" and s.arrived_via and s.arrived_via <= set(fb)):
                 continue
             via = r.get("via")
             if via:
@@ -340,17 +344,20 @@ def goal_leak(s: State):
 
 
 def search(engine: Engine, depth=4, goal=goal_leak, no_sale=True):
-    """Breadth-first enumeration of every action sequence up to `depth`.
+    """Reference enumeration: EVERY action sequence up to `depth`.
 
-    no_sale: a path using a `sale` step moves value for fair consideration, so it is
-    reported separately and does not count as leakage.
-    Returns a certificate dict (paths found, or exhaustion evidence)."""
+    No cross-path deduplication and no removal of repeated states within a path: capacity use
+    is not part of the state, so two paths reaching the same structural state are not
+    interchangeable. Termination comes from the depth bound alone. The only early stop: a path
+    is not extended once it reaches the goal (verify.py applies the same rule).
+
+    no_sale: a path using a `sale` step moves value for fair consideration, so it is reported
+    separately and does not count as leakage."""
     s0 = engine.u.initial()
-    frontier = deque([(s0, [])])
-    seen = {s0: 0}
     paths, sale_paths = [], []
     denials = {}
     expanded = 0
+    frontier = deque([(s0, [])])
     while frontier:
         s, path = frontier.popleft()
         if goal(s) and path:
@@ -366,23 +373,21 @@ def search(engine: Engine, depth=4, goal=goal_leak, no_sale=True):
                 continue
             for vd in engine.designations(a, s, v):
                 s2, fired = engine.apply(a, s, vd)
-                step = {"action": a.label(), "roles": f"{s.role(a.src or a.entity)}->{s2.role(s2.owner)}",
+                step = {"action": a.label(), "kind": a.kind, "src": a.src or "", "dst": a.dst or "",
+                        "entity": a.entity or "", "holder": s.owner,
+                        "roles": f"{s.role(a.src or a.entity)}->{s2.role(s2.owner)}",
                         "used": vd.used, "designated": vd.designated, "capacity": vd.capacity,
                         "effects": fired, "assumptions": vd.assumptions}
-                if s2 in seen and seen[s2] < len(path) + 1 and not goal(s2):
-                    continue
-                seen.setdefault(s2, len(path) + 1)
                 frontier.append((s2, path + [step]))
     return {
         "agreement": engine.doc["agreement"],
         "assumptions_on": sorted(engine.assumptions),
         "bound": {"depth": depth, "entities": engine.u.entities, "asset": engine.u.asset,
-                  "start_owner": engine.u.start_owner},
+                  "start_owner": engine.u.start_owner, "mode": "reference (no pruning)"},
         "reachable": bool(paths),
         "paths": paths,
         "sale_paths": sale_paths,
         "states_expanded": expanded,
-        "states_seen": len(seen),
         "denials": {k: sorted(v) for k, v in sorted(denials.items())},
     }
 

@@ -60,7 +60,8 @@ class Checker:
                 continue
             if not self.fits(r, *ctx):
                 continue
-            if r.get("funded_by") and not (ctx[0] == "transfer" and set(r["funded_by"]) & held_via):
+            # whole-asset model: everything that arrived must have arrived under an eligible basket
+            if r.get("funded_by") and not (ctx[0] == "transfer" and held_via and held_via <= set(r["funded_by"])):
                 continue
             v = r.get("via")
             if v and not self.allowed(v["category"], ctx, held_via, set(skip) | set(v.get("except", [])) | {r["id"]}, depth + 1):
@@ -126,10 +127,11 @@ class Checker:
         if new_roles[new_owner] in LP:
             new_enc = True
         inv = used.get("investments")
-        if not inv or act[0] != "transfer":
-            bookings = [(None, frozenset())] if not inv else \
-                [(("cap" if not self.uncapped(i, ctx, held_via) else "unc"), frozenset([i])) for i in inv]
+        if not inv:
+            bookings = [(None, frozenset())]
         else:
+            # same booking rule for transfers and (deemed-Investment) designations: a non-empty set of
+            # capped baskets sharing the value, or one uncapped basket
             cap = [i for i in inv if not self.uncapped(i, ctx, held_via)]
             unc = [i for i in inv if i not in cap]
             bookings = [("cap", frozenset(c)) for n in range(1, len(cap) + 1) for c in itertools.combinations(cap, n)]
@@ -137,7 +139,8 @@ class Checker:
         out = []
         for kind, b in bookings:
             nv = b if act[0] == "transfer" else held_via
-            out.append(((new_owner, new_enc, nv, new_roles), {"act": act, "booking": sorted(b), "capped": kind == "cap"}))
+            out.append(((new_owner, new_enc, nv, new_roles), {"act": act, "booking": sorted(b), "capped": kind == "cap",
+                                                              "holder": owner}))
         return out
 
     def acts(self, state):
@@ -174,15 +177,67 @@ class Checker:
         return out
 
 
-def hall_feasible(path, value, pools, rule_pools):
-    """Feasible iff for every subset X of capped steps, value*|X| <= capacity of pools reachable from X."""
-    capped = [set(p for rid in st["booking"] for p in rule_pools.get(rid, [])) for st in path if st["capped"]]
-    for n in range(1, len(capped) + 1):
-        for X in itertools.combinations(capped, n):
-            reach = set().union(*X)
-            if value * n > sum(pools[p] for p in reach):
-                return False
-    return True
+def _incoming(path, j):
+    """Position of the transfer whose recipient is the entity acting at step j (independent of ledger.py)."""
+    act = path[j]["act"]
+    actor = act[1] if act[0] == "transfer" else None
+    k = j - 1
+    while k >= 0:
+        a = path[k]["act"]
+        if a[0] == "transfer" and a[2] == actor:
+            return k
+        k -= 1
+    return None
+
+
+def hall_status(path, value, pools, rule_pools, funded_by):
+    """'feasible' / 'indeterminate' / 'infeasible' by Hall's condition over capped steps.
+
+    Source eligibility: for each step booked under a rule with funded_by, the inbound transfer's
+    booking must be a non-empty subset of the eligible rules (then only those rules' pools can
+    carry it). Confirmed model: unpriced capped rules give nothing. Relaxed model: each unpriced
+    rule gets its own pool of size value x (number of capped steps)."""
+    for j, st in enumerate(path):
+        for rid in st["booking"]:
+            elig = funded_by.get(rid)
+            if elig:
+                k = _incoming(path, j)
+                if k is None or not path[k]["booking"] or not set(path[k]["booking"]) <= set(elig):
+                    return "infeasible"
+    capped = [st for st in path if st["capped"]]
+    bound = value * max(len(capped), 1)
+    foreign_designation = [st for st in capped if st["act"][0] == "designate" and st["act"][1] != st["holder"]]
+
+    def ok(relaxed):
+        if foreign_designation and not relaxed:
+            return False          # deemed-Investment amount of a non-holder is unknown
+        neigh = []
+        sizes = dict(pools)
+        for st in capped:
+            if st in foreign_designation:
+                continue          # relaxed model: optimistic amount 0
+            ps = set()
+            for rid in st["booking"]:
+                if rid in rule_pools:
+                    ps |= set(rule_pools[rid])
+                elif relaxed:
+                    ps.add("?" + rid)
+                    sizes["?" + rid] = bound
+            neigh.append(ps)
+        for n in range(1, len(neigh) + 1):
+            for X in itertools.combinations(neigh, n):
+                reach = set().union(*X)
+                if value * n > sum(sizes.get(p, 0) for p in reach):
+                    return False
+        return True
+
+    if ok(False):
+        return "feasible"
+    return "indeterminate" if ok(True) else "infeasible"
+
+
+def hall_feasible(path, value, pools, rule_pools, funded_by=None):
+    return hall_status(path, value, pools, rule_pools, funded_by or {}) == "feasible"
 
 
 def signature(path):
@@ -191,14 +246,20 @@ def signature(path):
 
 
 def check(rules_doc, scenario_path, depth=3):
+    """{(profile, value name): {"feasible": signatures, "indeterminate": signatures}}"""
     sc = yaml.safe_load(open(scenario_path))
     cap = sc["capacity"]
     ids = sorted((rules_doc.get("assumptions") or {}).keys())
+    fb = {r["id"]: list(r["funded_by"]) for r in rules_doc["rules"] if r.get("funded_by")}
     res = {}
     for n in range(len(ids) + 1):
         for prof in itertools.combinations(ids, n):
             ps = Checker(rules_doc, sc, set(prof)).paths(depth)
             for vname, value in cap["values"].items():
-                feas = {signature(p) for p in ps if hall_feasible(p, value, cap["pools"], cap["rule_pools"])}
-                res[(prof, vname)] = feas
+                out = {"feasible": set(), "indeterminate": set()}
+                for p in ps:
+                    s = hall_status(p, value, cap["pools"], cap["rule_pools"], fb)
+                    if s in out:
+                        out[s].add(signature(p))
+                res[(prof, vname)] = out
     return res

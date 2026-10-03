@@ -9,7 +9,7 @@ import json
 import yaml
 
 from .engine import Engine, classify, load_rules, load_universe, search, skeleton
-from .ledger import check_path
+from .ledger import check_path, funded_by_map
 
 RULES = "rules/jcrew2014.yaml"
 SCENARIO = "rules/scenario_jcrew2016.yaml"
@@ -27,12 +27,13 @@ def run(rules_doc, scenario_path=SCENARIO, depth=3):
     cap = sc["capacity"]
     u = load_universe(scenario_path)
     rows = []
+    fb = funded_by_map(rules_doc)
     for prof in profiles(rules_doc):
         cert = search(Engine(rules_doc, u, prof), depth=depth)
         for vname, value in cap["values"].items():
             feas = []
             for p in cert["paths"]:
-                led = check_path(p, value, cap["pools"], cap["rule_pools"])
+                led = check_path(p, value, cap["pools"], cap["rule_pools"], fb)
                 if led["feasible"]:
                     feas.append((p, led))
             rows.append({

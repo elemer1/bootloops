@@ -47,17 +47,18 @@ floors of the percentage baskets govern; the Term Loan Security Agreement (2011,
 
 ## Results
 
-48 certificates (`reports/`), each cross-checked by an independent implementation
-(`lmt/verify.py`: depth-first enumeration with no pruning, Hall's condition instead of
-max-flow). **The verifier agrees on all 48.**
+48 certificates (`reports/`), each gated by an independent implementation (`lmt/verify.py`:
+depth-first enumeration, Hall's condition instead of max-flow). Both sides run without pruning
+and must produce identical feasible and indeterminate path sets; otherwise no verdict is issued.
+After the Phase 0.5 fixes, all 48 pass that gate.
 
 **Base agreement, $250M (company's value):**
 
 | assumptions on | verdict |
 |---|---|
-| none, A2, A3, A2+A3 | bounded non-reachability |
-| A1, A1+A3 | witness: guarantor → non-guarantor RS → unrestricted |
-| A1+A2, A1+A2+A3 | witness (same shape; more ways to book step 1) |
+| none, A2, A3, A2+A3 | bounded non-reachability (no path even under optimistic bounds) |
+| A1, A1+A3 | candidate path: guarantor → non-guarantor RS → unrestricted |
+| A1+A2, A1+A2+A3 | candidate path (same shape; more ways to book step 1) |
 
 **Base agreement, $347M (whole trademark value):** reachable only under A1+A2. Under
 A1 alone, $277M of capacity cannot carry $347M, which mirrors the lenders' argument.
@@ -92,6 +93,35 @@ structural route ends in a capped basket that cannot carry $250M.
 
 **Both blind encodings** give identical first-step permissions from every owner and
 identical leakage shapes and capacity classes, before any adjudication.
+
+## Phase 0 → 0.5: what the verification fixes changed
+
+Four verification defects were found after Phase 0 and fixed in Phase 0.5. Minimal synthetic
+counterexamples in `tests/test_regressions.py` FAIL on the Phase 0 commit (f7a8969) and pass
+after the fix; the positive controls pass on both.
+
+| defect | Phase 0 behaviour | fix |
+|---|---|---|
+| search pruned by state, ignoring capacity already used | a longer, capacity-saving path was dropped (synthetic case: empty result instead of a feasible path) | reference mode: every action sequence up to the depth bound, no deduplication; only early stop: a path is not extended after reaching the goal (same rule in verify.py) |
+| `funded_by` checked a label overlap | inbound booking {f1, g} with 1 of eligible capacity unlocked 100 onward | the inbound booking (of the transfer that brought the asset to its holder) must be a subset of `funded_by`; the ledger routes per-step rule nodes and enforces eligibility on rule nodes, not pools; verify.py re-checks it with its own code |
+| certificates issued despite verifier disagreement | verdict written with `agrees: false` | `VERIFICATION_FAILED`, nothing else issued, `lmt.certify` exits 1 |
+| unpriced capped baskets counted as zero | reported `BOUNDED_NON_REACHABILITY` where the answer is unknown | confirmed model (proves feasibility) vs. relaxed model (each unpriced basket its own unknown pool, bounded by value × capped steps; used only to rule out); per-query verdict `CANDIDATE_PATH` / `INDETERMINATE` / `BOUNDED_NON_REACHABILITY` |
+
+**Effect on J.Crew:** none of the 48 verdicts changed. What changed is completeness. Under A1
+at $250M, the Phase 0 engine returned 1 of the 5 feasible path signatures; the reference
+engine returns all 5, identical to the verifier (A1+A2: 3 → 18 at $250M, 1 → 6 at $347M). No
+J.Crew path depended on the `funded_by` label-overlap defect: the verifier's counts are the same
+under the old and new semantics. No query is `INDETERMINATE`: every capped basket booked on any
+leakage path in this scope has a priced pool.
+
+This is a regression result for Phase 0's rule file and scope, not a legal conclusion. Adding
+§7.08 and §7.04 (Phase 1b) may add conditions to, or remove, the A1 path.
+
+Scope of the `funded_by` semantics: whole-asset moves only (the full value moves at each step).
+Partial transfers, splitting mixed-source assets and reallocating sources are not supported.
+Designations are deemed Investments at the designated entity's fair market value; the model
+values an entity holding the tracked asset at the asset's value, and treats any other designated
+entity's value as unknown.
 
 ## What this shows and what it does not
 
@@ -129,8 +159,8 @@ actually used.
 
 ```
 cd lmt
-python3 -m pytest tests -q                  # 30 tests, ~15 s
+python3 -m pytest tests -q                  # 42 tests, ~45 s (reference mode, no pruning)
 python3 -m lmt.lint rules/jcrew2014.yaml    # grounding + coverage
 python3 -m lmt.closure rules/jcrew2014.yaml # cross-reference closure
-python3 -m lmt.certify --out reports        # 48 certificates + verifier cross-check, ~1 min
+python3 -m lmt.certify --out reports        # 48 certificates, verifier-gated, ~1.5 min; exit 1 on any failure
 ```
