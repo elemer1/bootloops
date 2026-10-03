@@ -108,8 +108,15 @@ after the fix; the positive controls pass on both.
 | unpriced capped baskets counted as zero | reported `BOUNDED_NON_REACHABILITY` where the answer is unknown | confirmed model (proves feasibility) vs. relaxed model (each unpriced basket its own unknown pool, bounded by value × capped steps; used only to rule out); per-query verdict `CANDIDATE_PATH` / `INDETERMINATE` / `BOUNDED_NON_REACHABILITY` |
 
 **Effect on J.Crew:** none of the 48 verdicts changed. What changed is completeness. Under A1
-at $250M, the Phase 0 engine returned 1 of the 5 feasible path signatures; the reference
-engine returns all 5, identical to the verifier (A1+A2: 3 → 18 at $250M, 1 → 6 at $347M). No
+at $250M, the Phase 0 engine returned 1 of the 5 feasible role-level path signatures; the
+reference engine returns all 5 (A1+A2: 3 → 18 at $250M, 1 → 6 at $347M). A follow-up review
+found that "identical path sets" was being checked at role level, which merges paths through
+different entities with the same role (G→Nd→U and G→Nf→U). The gate now compares entity-level
+signatures (full action plus booking); counted that way the sets are 10 (A1, $250M), 36 and 12
+(A1+A2), still identical between engine and verifier, and still 0 verdict changes. A second
+follow-up made pool amounts explicit: a referenced but undeclared pool is refused as invalid
+input, and `null` marks an unknown amount (0 when proving, a shared bound when ruling out). All
+J.Crew pools have amounts, so nothing changed there. No
 J.Crew path depended on the `funded_by` label-overlap defect: the verifier's counts are the same
 under the old and new semantics. No query is `INDETERMINATE`: every capped basket booked on any
 leakage path in this scope has a priced pool.

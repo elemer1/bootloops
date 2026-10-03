@@ -212,7 +212,8 @@ def hall_status(path, value, pools, rule_pools, funded_by):
         if foreign_designation and not relaxed:
             return False          # deemed-Investment amount of a non-holder is unknown
         neigh = []
-        sizes = dict(pools)
+        # declared-but-unknown amounts (None): 0 when proving, shared finite bound when relaxing
+        sizes = {p: (a if a is not None else (bound if relaxed else 0)) for p, a in pools.items()}
         for st in capped:
             if st in foreign_designation:
                 continue          # relaxed model: optimistic amount 0
@@ -241,14 +242,31 @@ def hall_feasible(path, value, pools, rule_pools, funded_by=None):
 
 
 def signature(path):
-    return tuple((st["roles"], st["act"][0] if st["act"][0] == "designate" else f"transfer[{st['act'][3]}]",
-                  tuple(st["booking"])) for st in path)
+    """Entity-level: the full action (who, to whom, which form / which entity) plus the booking.
+    Role-level shapes are for reports only; they would merge G->Nd->U with G->Nf->U."""
+    out = []
+    for st in path:
+        a = st["act"]
+        act = f"designate {a[1]}" if a[0] == "designate" else f"transfer[{a[3]}] {a[1]}->{a[2]}"
+        out.append((act, tuple(sorted(st["booking"]))))
+    return tuple(out)
+
+
+def _check_pools(pools, rule_pools):
+    for rid, ps in rule_pools.items():
+        for p in ps:
+            if p not in pools:
+                raise ValueError(f"verify: rule {rid} draws on undeclared pool {p}")
+    for p, a in pools.items():
+        if a is not None and not (type(a) is int and a >= 0):
+            raise ValueError(f"verify: pool {p} amount must be a non-negative integer or null")
 
 
 def check(rules_doc, scenario_path, depth=3):
     """{(profile, value name): {"feasible": signatures, "indeterminate": signatures}}"""
     sc = yaml.safe_load(open(scenario_path))
     cap = sc["capacity"]
+    _check_pools(cap["pools"], cap["rule_pools"])
     ids = sorted((rules_doc.get("assumptions") or {}).keys())
     fb = {r["id"]: list(r["funded_by"]) for r in rules_doc["rules"] if r.get("funded_by")}
     res = {}

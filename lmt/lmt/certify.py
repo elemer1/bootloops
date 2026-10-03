@@ -26,7 +26,7 @@ import yaml
 
 from . import verify
 from .engine import Engine, classify, load_rules, load_universe, search, skeleton, validate
-from .ledger import check_path, funded_by_map
+from .ledger import CapacityConfigError, check_path, funded_by_map, validate_capacity
 
 GOAL = "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
 NO_PENDING = "no further open conditions, within the stated model, initial state and fact inputs"
@@ -37,7 +37,9 @@ def sha(obj):
 
 
 def esig(p):
-    return tuple((st["roles"], st["action"].split(" ")[0], tuple(sorted(st.get("designated") or []))) for st in p)
+    """Entity-level signature from the engine's action labels ('transfer[form] SRC->DST' / 'designate E')
+    plus the booking. Must equal verify.signature, which builds the same string independently."""
+    return tuple((st["action"], tuple(sorted(st.get("designated") or []))) for st in p)
 
 
 def certificates(rules_path, scenario_path, depth=3, overlay_doc=None, label="base"):
@@ -47,6 +49,7 @@ def certificates(rules_path, scenario_path, depth=3, overlay_doc=None, label="ba
         doc = validate(_ov(doc, overlay_doc))
     sc = yaml.safe_load(open(scenario_path))
     cap = sc["capacity"]
+    validate_capacity(cap["pools"], cap["rule_pools"])   # refuse before any verdict is computed
     fb = funded_by_map(doc)
     u = load_universe(scenario_path)
     ver = verify.check(doc, scenario_path, depth)
@@ -91,7 +94,7 @@ def certificates(rules_path, scenario_path, depth=3, overlay_doc=None, label="ba
             c["other_paths"] = {"feasible": len(feas), "indeterminate": len(indet)}
         elif indet:
             c["verdict"] = "INDETERMINATE"
-            c["unknowns"] = sorted({u_["rule"] for _, l in indet for u_ in l.get("unknowns", [])}) or \
+            c["unknowns"] = sorted({u_ for _, l in indet for u_ in l.get("unknowns", [])}) or \
                 ["deemed-Investment amount of a designated entity that does not hold the asset"]
             c["indeterminate_paths"] = len(indet)
         else:
@@ -112,7 +115,11 @@ def main():
                                for n in ("cpi2020", "weak")]
     failed = 0
     for label, ov in runs:
-        certs = certificates("rules/jcrew2014.yaml", "rules/scenario_jcrew2016.yaml", a.depth, ov, label)
+        try:
+            certs = certificates("rules/jcrew2014.yaml", "rules/scenario_jcrew2016.yaml", a.depth, ov, label)
+        except CapacityConfigError as e:
+            print(f"REFUSED (invalid capacity input, no certificate written): {e}")
+            sys.exit(2)
         json.dump(certs, open(os.path.join(a.out, f"certificates_{label}.json"), "w"), indent=1, default=list)
         for c in certs:
             failed += c["verdict"] == "VERIFICATION_FAILED"

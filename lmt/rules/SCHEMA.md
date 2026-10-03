@@ -169,3 +169,9 @@ exception with conservative fields and add a `note:`.
   or VERIFICATION_FAILED if engine and verifier disagree.
 - **Designations** are deemed Investments at the designated entity's fair market value: the
   asset's value if it holds the tracked asset, otherwise unknown.
+- **Capacity input:** `pools: {P: <non-negative int>}` (known) or `{P: null}` (amount unknown; P stays one
+  shared pool: 0 in the confirmed model, a shared finite bound in the relaxed model). A pool referenced in
+  `rule_pools` but not declared, or a non-integer amount, is invalid input: `lmt.certify` refuses
+  (exit 2) and writes no certificate.
+- **Verification signatures** are entity-level: per step the full action (`transfer[<form>] <src>-><dst>`
+  or `designate <entity>`) plus the sorted booking. Role-level shapes are for reports and benchmarks only.

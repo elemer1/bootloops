@@ -31,6 +31,21 @@ from __future__ import annotations
 from collections import defaultdict
 
 
+class CapacityConfigError(ValueError):
+    """Invalid capacity input: a referenced pool is not declared, or an amount is not an int/null."""
+
+
+def validate_capacity(pools, rule_pools):
+    """pools: {name: int | None}; None = amount unknown (the pool keeps its identity and stays shared).
+    Every pool referenced in rule_pools must be declared. Raises CapacityConfigError otherwise."""
+    bad = sorted({p for ps in rule_pools.values() for p in ps if p not in pools})
+    if bad:
+        raise CapacityConfigError(f"pool(s) referenced in rule_pools but not declared in pools: {', '.join(bad)}")
+    wrong = sorted(p for p, a in pools.items() if a is not None and (not isinstance(a, int) or isinstance(a, bool) or a < 0))
+    if wrong:
+        raise CapacityConfigError(f"pool amount must be a non-negative integer or null: {', '.join(wrong)}")
+
+
 def _maxflow(cap, s, t):
     flow = 0
     while True:
@@ -88,7 +103,7 @@ def _source_restrictions(path, funded_by):
 
 def _route(path, value, pools, rule_pools, allowed, relaxed, category):
     cap = defaultdict(lambda: defaultdict(int))
-    demand, steps, unpriced = 0, [], set()
+    demand, steps, unpriced, unknown_pools = 0, [], set(), set()
     n_capped = sum(1 for st in path if st["capacity"].get(category) == "capped")
     bound = value * max(n_capped, 1)
     for i, st in enumerate(path):
@@ -101,7 +116,8 @@ def _route(path, value, pools, rule_pools, allowed, relaxed, category):
             # know: confirmed model cannot prove it fits; relaxed model takes the optimistic 0
             if not relaxed:
                 return False, {"demand": None, "routed": 0, "steps": steps, "allocation": {},
-                               "unpriced": sorted(unpriced), "unknown_amount_step": i}
+                               "unpriced": sorted(unpriced), "unknown_pools": sorted(unknown_pools),
+                               "unknown_amount_step": i}
             steps.append({"step": i, "needs": 0, "note": "designation of a non-holder: amount unknown"})
             continue
         node = f"step{i}"
@@ -119,6 +135,8 @@ def _route(path, value, pools, rule_pools, allowed, relaxed, category):
                 for p in ps:
                     cap[rn][f"pool:{p}"] = value
                     reach.add(p)
+                    if pools.get(p) is None:
+                        unknown_pools.add(p)
             else:
                 unpriced.add(rid)
                 if relaxed:
@@ -127,7 +145,11 @@ def _route(path, value, pools, rule_pools, allowed, relaxed, category):
                     reach.add(f"unknown:{rid}")
         steps.append({"step": i, "needs": value, "rules": sorted(rules), "pools": sorted(reach)})
     for p, amt in pools.items():
-        cap[f"pool:{p}"]["T"] = amt
+        if amt is None:
+            # declared pool, amount unknown: 0 in the confirmed model, shared finite bound in the relaxed one
+            cap[f"pool:{p}"]["T"] = bound if relaxed else 0
+        else:
+            cap[f"pool:{p}"]["T"] = amt
     orig = {u: dict(vs) for u, vs in cap.items()}
     routed = _maxflow(cap, "S", "T") if demand else 0
     alloc = {}
@@ -139,7 +161,8 @@ def _route(path, value, pools, rule_pools, allowed, relaxed, category):
                 if used:
                     alloc.setdefault(st["step"], {})[pn.split("pool:", 1)[1]] = used
     return routed == demand, {"demand": demand, "routed": routed, "steps": steps,
-                              "allocation": alloc, "unpriced": sorted(unpriced)}
+                              "allocation": alloc, "unpriced": sorted(unpriced),
+                              "unknown_pools": sorted(unknown_pools)}
 
 
 def check_path(path, value, pools, rule_pools, funded_by=None, category="investments"):
@@ -147,7 +170,7 @@ def check_path(path, value, pools, rule_pools, funded_by=None, category="investm
     allowed = _source_restrictions(path, funded_by or {})
     if allowed is None:
         return {"feasible": False, "status": "infeasible", "reason": "funded_by source not satisfied",
-                "demand": 0, "routed": 0, "steps": [], "allocation": {}, "unpriced": []}
+                "demand": 0, "routed": 0, "steps": [], "allocation": {}, "unpriced": [], "unknown_pools": []}
     ok, info = _route(path, value, pools, rule_pools, allowed, relaxed=False, category=category)
     if ok:
         return {"feasible": True, "status": "feasible", **info}
@@ -155,8 +178,8 @@ def check_path(path, value, pools, rule_pools, funded_by=None, category="investm
     status = "indeterminate" if ok_r else "infeasible"
     return {"feasible": False, "status": status, **info,
             "relaxed_allocation": info_r["allocation"] if ok_r else {},
-            "unknowns": [{"rule": r, "unknown": "amount only (pool sharing and eligibility from the rule file)"}
-                         for r in info["unpriced"]]}
+            "unknowns": [f"rule {r}: no pool mapping, amount unknown" for r in info["unpriced"]]
+                        + [f"pool {p}: amount unknown" for p in info.get("unknown_pools", [])]}
 
 
 def funded_by_map(doc):

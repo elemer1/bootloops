@@ -208,3 +208,63 @@ def test_verifier_independently_rejects_label_overlap():
     chk = verify.Checker(doc, {"facts": []}, set())
     fb = {"t": ["f1"]}
     assert [p for p in chk.paths(2) if verify.hall_status(p, 100, pools, rp, fb) == "feasible"] == []
+
+
+# ---------------------------------------------------------------- review of 3cfc54e: P1 (a) declared pool, unknown amount
+
+def test_negative_declared_pool_with_unknown_amount_is_not_non_reachability(tmp_path):
+    """Rule d draws on pool P, whose amount is unknown (null). Not proof of non-reachability."""
+    rp, sp = write_case(tmp_path, DIRECT, {"P": None}, {"d": ["P"]})
+    certs = certify_mod.certificates(rp, sp, depth=1)
+    assert [c["verdict"] for c in certs] == ["INDETERMINATE"]
+
+
+def test_config_error_pool_referenced_but_not_declared_is_refused(tmp_path):
+    rp, sp = write_case(tmp_path, DIRECT, {}, {"d": ["P"]})
+    with pytest.raises(Exception) as ei:
+        certify_mod.certificates(rp, sp, depth=1)
+    assert type(ei.value).__name__ == "CapacityConfigError"
+    assert "P" in str(ei.value)
+
+
+def test_shared_unknown_pool_keeps_its_identity(tmp_path):
+    doc = contract([exc("d", ["guarantor"], ["unrestricted"], "capped"),
+                    exc("e", ["guarantor"], ["unrestricted"], "capped")])
+    rp, sp = write_case(tmp_path, doc, {"P": None}, {"d": ["P"], "e": ["P"]})
+    certs = certify_mod.certificates(rp, sp, depth=1)
+    assert [c["verdict"] for c in certs] == ["INDETERMINATE"]
+    assert certs[0]["unknowns"] == ["pool P: amount unknown"]
+
+
+def test_positive_known_pools_unchanged(tmp_path):
+    rp, sp = write_case(tmp_path, DIRECT, {"P": 100}, {"d": ["P"]})
+    assert [c["verdict"] for c in certify_mod.certificates(rp, sp, depth=1)] == ["CANDIDATE_PATH"]
+
+
+# ---------------------------------------------------------------- review of 3cfc54e: P1 (b) entity-level signatures
+
+SYMMETRIC = contract([exc("a", ["guarantor"], ["nlp_rs"], "unlimited"),
+                      exc("b", ["nlp_rs"], ["unrestricted"], "unlimited")])
+
+
+def test_negative_dropping_a_same_role_different_entity_path_fails_verification(tmp_path, monkeypatch):
+    """G->Nd->U and G->Nf->U have the same role shape. If the engine loses every path through Nf,
+    the verifier (which still has it) must block the verdict."""
+    rp, sp = write_case(tmp_path, SYMMETRIC, {}, {})
+    real = certify_mod.search
+
+    def lossy(engine, depth=4, **kw):
+        cert = real(engine, depth=depth, **kw)
+        cert["paths"] = [p for p in cert["paths"] if not any("Nf" in st["action"] for st in p)]
+        return cert
+
+    monkeypatch.setattr(certify_mod, "search", lossy)
+    certs = certify_mod.certificates(rp, sp, depth=2)
+    assert [c["verdict"] for c in certs] == ["VERIFICATION_FAILED"]
+
+
+def test_new_api_symmetric_paths_counted_per_entity_without_tampering(tmp_path):
+    rp, sp = write_case(tmp_path, SYMMETRIC, {}, {})
+    certs = certify_mod.certificates(rp, sp, depth=2)
+    assert [c["verdict"] for c in certs] == ["CANDIDATE_PATH"]
+    assert certs[0]["independent_verifier"]["engine"]["feasible"] == 2

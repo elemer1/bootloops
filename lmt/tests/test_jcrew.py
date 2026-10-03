@@ -155,8 +155,8 @@ def test_T6_renaming_and_shuffling_do_not_change_results(seed):
 def test_independent_verifier_agrees_on_full_path_sets():
     """Reference mode (no pruning on either side): the feasible and the indeterminate signature
     sets must be identical, with funded_by source constraints applied on both sides."""
-    def esig(p):
-        return tuple((st["roles"], st["action"].split(" ")[0], tuple(sorted(st.get("designated") or []))) for st in p)
+    def esig(p):  # entity-level: full action label + booking (same convention as certify.esig)
+        return tuple((st["action"], tuple(sorted(st.get("designated") or []))) for st in p)
     fb = funded_by_map(RULES)
     for prof in [(), ("A1",)]:
         vpaths = verify.Checker(RULES, SC, set(prof)).paths(3)

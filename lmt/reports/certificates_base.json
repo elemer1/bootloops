@@ -227,11 +227,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 5,
+    "feasible": 10,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 5,
+    "feasible": 10,
     "indeterminate": 0
    }
   },
@@ -824,11 +824,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 18,
+    "feasible": 36,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 18,
+    "feasible": 36,
     "indeterminate": 0
    }
   },
@@ -1000,11 +1000,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 6,
+    "feasible": 12,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 6,
+    "feasible": 12,
     "indeterminate": 0
    }
   },
@@ -1178,11 +1178,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 5,
+    "feasible": 10,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 5,
+    "feasible": 10,
     "indeterminate": 0
    }
   },
@@ -1610,11 +1610,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 18,
+    "feasible": 36,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 18,
+    "feasible": 36,
     "indeterminate": 0
    }
   },
@@ -1789,11 +1789,11 @@
   "independent_verifier": {
    "agrees": true,
    "engine": {
-    "feasible": 6,
+    "feasible": 12,
     "indeterminate": 0
    },
    "verifier": {
-    "feasible": 6,
+    "feasible": 12,
     "indeterminate": 0
    }
   },
