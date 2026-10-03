@@ -1,0 +1,12 @@
+# Synthetic overlay (our text, not from the agreement): a narrowly drafted blocker that
+# only binds Loan Parties. Used to test whether the search finds a bypass.
+synthetic_clauses:
+  "SYN.weak": "Notwithstanding anything to the contrary herein, no Loan Party shall make any Investment in any Unrestricted Subsidiary consisting of Material Intellectual Property."
+rules:
+- id: SYN.weak
+  kind: prohibition
+  action: transfer
+  actor: [holdings, borrower, guarantor]
+  counterparty: [unrestricted]
+  assets: [ip]
+  cite: {clause: "SYN.weak", quote: "no Loan Party shall make any Investment in any Unrestricted Subsidiary consisting of Material Intellectual Property"}

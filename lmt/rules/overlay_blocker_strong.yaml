@@ -1,0 +1,19 @@
+# Synthetic overlay (our text, not from the agreement): a blocker covering any transferor
+# and the designation route.
+synthetic_clauses:
+  "SYN.strong": "Notwithstanding anything to the contrary herein, (a) neither the Borrower nor any Restricted Subsidiary shall transfer (whether by Investment, Disposition, Restricted Payment or otherwise) any Material Intellectual Property to any Unrestricted Subsidiary and (b) no Restricted Subsidiary that owns Material Intellectual Property shall be designated as an Unrestricted Subsidiary."
+rules:
+- id: SYN.strong.a
+  kind: prohibition
+  action: transfer
+  actor: [any]
+  counterparty: [unrestricted]
+  assets: [ip]
+  cite: {clause: "SYN.strong", quote: "shall transfer (whether by Investment, Disposition, Restricted Payment or otherwise) any Material Intellectual Property to any Unrestricted Subsidiary"}
+- id: SYN.strong.b
+  kind: prohibition
+  action: designate
+  actor: [any]
+  counterparty: [any]
+  owns_tracked_asset: true
+  cite: {clause: "SYN.strong", quote: "no Restricted Subsidiary that owns Material Intellectual Property shall be designated as an Unrestricted Subsidiary"}

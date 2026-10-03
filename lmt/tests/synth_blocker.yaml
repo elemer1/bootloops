@@ -1,0 +1,5 @@
+synthetic_clauses:
+  "SYN.blocker": "Notwithstanding anything to the contrary, no Loan Party or Restricted Subsidiary shall transfer any material intellectual property to any Unrestricted Subsidiary."
+rules:
+- {id: SYN.blocker, kind: prohibition, action: transfer, actor: [any], counterparty: [unrestricted], assets: [ip],
+   cite: {clause: "SYN.blocker", quote: "shall transfer any material intellectual property to any Unrestricted Subsidiary"}}
