@@ -141,3 +141,14 @@ exception with conservative fields and add a `note:`.
   designated owns the tracked asset. Used by the synthetic blocker overlays in `rules/overlay_*.yaml`.
 - `synthetic_clauses:` in an overlay file: text written by us (never from the agreement), cited as
   `SYN.*`, so the linter still checks that each overlay rule quotes its own text verbatim.
+- `assumption: Ak` on any rule: the rule is active only when interpretation assumption Ak is
+  switched on; the rule file's `assumptions:` map states each one in words. Results are reported
+  per combination of assumptions.
+- `cites: [{clause, quote}]`: additional grounding in another clause or document
+  (`external_clauses:` holds pinned text from other filings). `release_requires` makes the
+  linter demand such a second grounding for lien releases.
+- `out_of_scope: {section: treatment}`: every section referenced from inside the scope but not
+  encoded, with how it is treated (`python3 -m lmt.closure`).
+- Booking: when several investment baskets permit a step, the engine branches over how the step
+  is booked (a set of capped baskets sharing the value, or one uncapped basket). The booking
+  decides capacity use and which `funded_by` conditions later steps can meet.

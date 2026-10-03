@@ -1,0 +1,1896 @@
+[
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [],
+   "assumption_text": {},
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 16,
+  "states_expanded": 83,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 16,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [],
+   "assumption_text": {},
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 16,
+  "states_expanded": 83,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 16,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 28,
+  "states_expanded": 107,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 5,
+   "engine_feasible_signatures": 1
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "n_floor": 73000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(n)"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 28,
+  "states_expanded": 107,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 28,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A2"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 48,
+  "states_expanded": 208,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 48,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A2"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 48,
+  "states_expanded": 208,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 48,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A3"
+   ],
+   "assumption_text": {
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 16,
+  "states_expanded": 83,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 16,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A3"
+   ],
+   "assumption_text": {
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 16,
+  "states_expanded": 83,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 16,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A2"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 76,
+  "states_expanded": 264,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 18,
+   "engine_feasible_signatures": 3
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "i_B_floor": 73000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(i).nlp",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(i).nlp"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(i).nlp: acquired business permitted under Section 7.07",
+      "7.02(i).nlp: no Default immediately before and after",
+      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+      "7.02(i).nlp: Responsible Officer certificate",
+      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A2"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition)."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 76,
+  "states_expanded": 264,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 6,
+   "engine_feasible_signatures": 1
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "i_B_floor": 75000000,
+     "n_floor": 95000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(i).nlp",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(i).nlp",
+      "7.02(n)"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(i).nlp: acquired business permitted under Section 7.07",
+      "7.02(i).nlp: no Default immediately before and after",
+      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+      "7.02(i).nlp: Responsible Officer certificate",
+      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 28,
+  "states_expanded": 107,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 5,
+   "engine_feasible_signatures": 1
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "n_floor": 73000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(n)"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 28,
+  "states_expanded": 107,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 28,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 48,
+  "states_expanded": 208,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 48,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "BOUNDED_NON_REACHABILITY",
+  "structural_paths": 48,
+  "states_expanded": 208,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 0,
+   "engine_feasible_signatures": 0
+  },
+  "why_not": {
+   "structural_paths_all_capacity_infeasible": 48,
+   "note": "every structural path fails the capacity ledger (Hall condition in verify.py)",
+   "sample_denials": {
+    "designate G": [
+     "no exception in designation"
+    ],
+    "designate Nd": [
+     "no exception in designation"
+    ],
+    "designate Nf": [
+     "no exception in designation"
+    ],
+    "transfer[contribution] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[contribution] H->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] B->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] G->U": [
+     "prohibited by SYN.weak"
+    ],
+    "transfer[sale] H->U": [
+     "prohibited by SYN.weak"
+    ]
+   }
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "company_certified",
+   "usd": 250000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 76,
+  "states_expanded": 264,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 18,
+   "engine_feasible_signatures": 3
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "i_B_floor": 73000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(i).nlp",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(i).nlp"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(i).nlp: acquired business permitted under Section 7.07",
+      "7.02(i).nlp: no Default immediately before and after",
+      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+      "7.02(i).nlp: Responsible Officer certificate",
+      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "label": "blocker_weak",
+  "model": {
+   "rules_sha256": "a1557ca1d475450e4fc987def341372a68db33014b300f400272b4626369e6f4",
+   "assumptions_on": [
+    "A1",
+    "A2",
+    "A3"
+   ],
+   "assumption_text": {
+    "A1": "7.02(t): an Investment of property (here IP) that the Non-Loan-Party Restricted Subsidiary itself received as an in-kind Investment under 7.02(c)(iv), (i)(B) or (n) is \"financed with the proceeds received\" from that Investment.",
+    "A2": "7.02(i): an intra-group contribution of property to a wholly owned Restricted Subsidiary is a \"purchase or other acquisition\" (a Permitted Acquisition).",
+    "A3": "7.02(c)(ii)/(iii): \"Non-Loan Party\" (any Subsidiary that is not a Loan Party) includes Unrestricted Subsidiaries as the investing party."
+   },
+   "scenario_facts": [
+    {
+     "pattern": "BrandTwo",
+     "holds": false,
+     "why": "The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest), not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60."
+    },
+    {
+     "pattern": "Securitization",
+     "holds": false,
+     "why": "No securitization financing is part of the transaction (same source)."
+    }
+   ],
+   "goal": "tracked IP owned by an Unrestricted Subsidiary, lenders' lien released, no fair-value sale on the path"
+  },
+  "bound": {
+   "depth": 3,
+   "entities": {
+    "H": {
+     "role": "holdings",
+     "foreign": false
+    },
+    "B": {
+     "role": "borrower",
+     "foreign": false
+    },
+    "G": {
+     "role": "guarantor",
+     "foreign": false
+    },
+    "Nd": {
+     "role": "nlp_rs",
+     "foreign": false
+    },
+    "Nf": {
+     "role": "nlp_rs",
+     "foreign": true
+    },
+    "U": {
+     "role": "unrestricted",
+     "foreign": false
+    }
+   },
+   "start_owner": "G",
+   "initial_state_sha256": "d4cd275f8b40c44320bdf25d8a860e5313962d41884defbdeda17f15e1ec1c36"
+  },
+  "value": {
+   "name": "full_trademark",
+   "usd": 347000000
+  },
+  "verdict": "WITNESS",
+  "structural_paths": 76,
+  "states_expanded": 264,
+  "independent_verifier": {
+   "agrees": true,
+   "verifier_feasible_signatures": 6,
+   "engine_feasible_signatures": 1
+  },
+  "witness": {
+   "shape": [
+    "guarantor->nlp_rs",
+    "nlp_rs->unrestricted"
+   ],
+   "class": "uncapped-entry",
+   "allocation_usd": {
+    "0": {
+     "available_amount": 27000000,
+     "c_iv_floor": 150000000,
+     "i_B_floor": 75000000,
+     "n_floor": 95000000
+    }
+   },
+   "steps": [
+    {
+     "action": "transfer[contribution] G->Nd",
+     "roles": "guarantor->nlp_rs",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(c)(iv)",
+       "7.02(i).nlp",
+       "7.02(n)"
+      ]
+     },
+     "designated": [
+      "7.02(c)(iv)",
+      "7.02(i).nlp",
+      "7.02(n)"
+     ],
+     "capacity": {
+      "dispositions": "capped",
+      "investments": "capped"
+     },
+     "effects": [
+      "7.05.free_and_clear",
+      "9.11(a)(ii)"
+     ],
+     "assumptions": [
+      "7.02(c)(iv): capacity sufficient (greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(c)(iv): intercompany loans under this clause evidenced by notes pledged to the Collateral Agent",
+      "7.02(i).nlp: capacity sufficient (greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding)",
+      "7.02(i).nlp: acquired business permitted under Section 7.07",
+      "7.02(i).nlp: no Default immediately before and after",
+      "7.02(i).nlp: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate",
+      "7.02(i).nlp: Responsible Officer certificate",
+      "7.02(i).nlp: counterparty is (or becomes) a wholly owned Restricted Subsidiary",
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    },
+    {
+     "action": "transfer[contribution] Nd->U",
+     "roles": "nlp_rs->unrestricted",
+     "used": {
+      "dispositions": [
+       "7.05(e).investments"
+      ],
+      "investments": [
+       "7.02(n)",
+       "7.02(t)"
+      ]
+     },
+     "designated": [
+      "7.02(t)"
+     ],
+     "capacity": {
+      "dispositions": "uncapped",
+      "investments": "uncapped"
+     },
+     "effects": [],
+     "assumptions": [
+      "7.02(n): capacity sufficient (greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no Event of Default)",
+      "7.02(n): Available Amount portion: no Event of Default continuing or resulting"
+     ]
+    }
+   ]
+  }
+ }
+]

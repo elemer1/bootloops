@@ -96,6 +96,7 @@ def overlay(doc, extra):
     d = copy.deepcopy(doc)
     d["rules"] = d["rules"] + copy.deepcopy(extra["rules"])
     d.setdefault("synthetic_clauses", {}).update(extra.get("synthetic_clauses", {}))
+    d.setdefault("external_clauses", {}).update(extra.get("external_clauses", {}))
     return d
 
 

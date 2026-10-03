@@ -93,6 +93,15 @@ class Universe:
     entities: dict                  # id -> {"role": ..., "foreign": bool}
     asset: str = "ip"
     start_owner: str = "G"
+    facts: list = field(default_factory=list)   # [{"pattern": regex, "holds": bool, "why": str}]
+
+    def condition_fails(self, cond):
+        """A rule condition is known false in this scenario if a fact with holds=False matches it."""
+        import re
+        for f in self.facts:
+            if not f["holds"] and re.search(f["pattern"], cond, re.I):
+                return f
+        return None
 
     def initial(self):
         roles = tuple(sorted((e, v["role"]) for e, v in self.entities.items()))
@@ -133,12 +142,18 @@ class Verdict:
     used: dict = field(default_factory=dict)        # category -> [rule ids]
     denied: list = field(default_factory=list)      # reasons
     assumptions: list = field(default_factory=list)
+    capacity: dict = field(default_factory=dict)    # category -> capped | uncapped
+    designated: list = field(default_factory=list)  # investments basket(s) the step is booked under
 
 
 class Engine:
-    def __init__(self, doc, universe=None):
+    def __init__(self, doc, universe=None, assumptions=None):
+        """assumptions: set of interpretation-assumption ids treated as true (None = all of them).
+        A rule tagged `assumption: Ak` is active only when Ak is in the set."""
         self.doc = doc
-        self.rules = doc["rules"]
+        declared = set((doc.get("assumptions") or {}).keys())
+        self.assumptions = declared if assumptions is None else set(assumptions)
+        self.rules = [r for r in doc["rules"] if not r.get("assumption") or r["assumption"] in self.assumptions]
         self.u = universe or default_universe()
         self.by_kind = {k: [r for r in self.rules if r["kind"] == k] for k in KINDS}
 
@@ -150,6 +165,8 @@ class Engine:
                 for form in FORMS:
                     if form == "license":
                         continue  # licenses move use rights, not title; not tracked in Phase 0
+                    if form == "dividend" and s.role(dst) in ("unrestricted",):
+                        continue  # an Unrestricted Subsidiary cannot be the parent of a restricted entity
                     yield Action("transfer", src=s.owner, dst=dst, form=form)
         for e in ents:
             if s.role(e) in RESTRICTED_SUB:
@@ -198,6 +215,8 @@ class Engine:
         for r in self.by_kind["exception"]:
             if r["category"] != cat or r["id"] in excluded or not self._matches(r, a, s):
                 continue
+            if any(self.u.condition_fails(c) for c in r.get("conditions") or []):
+                continue
             fb = r.get("funded_by")
             if fb and not (a.kind == "transfer" and set(fb) & s.arrived_via):
                 continue
@@ -209,6 +228,22 @@ class Engine:
                     continue
             hits.append(r["id"])
         return hits
+
+    def capacity_of(self, cat, ids, a, s, depth=0):
+        """'uncapped' if some permitting rule is unlimited; a cross-reference (`via`) rule inherits the
+        capacity of the rules it points to."""
+        ex = {r["id"]: r for r in self.rules}
+        for rid in ids:
+            r = ex[rid]
+            via = r.get("via")
+            if via:
+                if depth < 4:
+                    inner = self.permitted_in(via["category"], a, s, frozenset(via.get("except", [])) | {rid})
+                    if inner and self.capacity_of(via["category"], inner, a, s, depth + 1) == "uncapped":
+                        return "uncapped"
+            elif r.get("capacity") == "unlimited":
+                return "uncapped"
+        return "capped"
 
     def check(self, a: Action, s: State) -> Verdict:
         cats, chars = self.categories(a, s)
@@ -232,6 +267,7 @@ class Engine:
                 v.denied.append(f"no exception in {cat}")
         if v.ok:
             ex = {r["id"]: r for r in self.rules}
+            v.capacity = {cat: self.capacity_of(cat, ids, a, s) for cat, ids in v.used.items()}
             for ids in v.used.values():
                 for rid in ids:
                     r = ex[rid]
@@ -241,12 +277,38 @@ class Engine:
                         v.assumptions.append(f"{rid}: {c}")
         return v
 
+    def designations(self, a: Action, s: State, v: Verdict):
+        """How the step can be booked under the investments covenant.
+
+        Either (i) a non-empty set of capped baskets, across which the ledger splits the value
+        (e.g. part under 7.02(c)(iv), part under 7.02(n)); or (ii) a single uncapped basket.
+        The booking decides capacity consumption and which later `funded_by` conditions the
+        received property can satisfy. Mixed bookings are not generated: they only ever give
+        partial funding credit, so they never open a path that (i) or (ii) does not."""
+        import copy
+        import itertools
+        ids = v.used.get("investments")
+        if not ids:
+            return [v]
+        capped = [r for r in ids if self.capacity_of("investments", [r], a, s) == "capped"]
+        uncapped = [r for r in ids if r not in capped]
+        bookings = [frozenset(c) for n in range(1, len(capped) + 1) for c in itertools.combinations(capped, n)]
+        bookings += [frozenset([r]) for r in uncapped]
+        out = []
+        for b in bookings:
+            vd = copy.copy(v)
+            vd.designated = sorted(b)
+            vd.capacity = dict(v.capacity)
+            vd.capacity["investments"] = "capped" if b <= set(capped) else "uncapped"
+            out.append(vd)
+        return out
+
     def apply(self, a: Action, s: State, v: Verdict) -> tuple[State, list]:
         roles = dict(s.roles)
         owner, enc, via = s.owner, s.encumbered, frozenset()
         if a.kind == "transfer":
             owner = a.dst
-            via = frozenset(v.used.get("investments", []))
+            via = frozenset(v.designated) if v.designated else frozenset()
         else:
             roles[a.entity] = "unrestricted"
             via = s.arrived_via
@@ -260,9 +322,9 @@ class Engine:
                 continue
             if a.kind == "designate" and a.entity != owner:
                 continue  # designating some other entity does not touch the tracked asset
-            if r["then"] == "release_lien" and enc:
+            if r["then"] == "release_lien" and s.encumbered:
                 enc = False
-                fired.append(r["id"])
+                fired.append(r["id"])  # every release ground that applies, not only the first
             elif r["then"] == "attach_lien" and not enc:
                 enc = True
                 fired.append(r["id"])
@@ -298,21 +360,22 @@ def search(engine: Engine, depth=4, goal=goal_leak, no_sale=True):
             continue
         expanded += 1
         for a in engine.actions(s):
-            if no_sale is False and a.form == "sale":
-                pass
             v = engine.check(a, s)
             if not v.ok:
                 denials.setdefault(a.label(), set()).update(v.denied)
                 continue
-            s2, fired = engine.apply(a, s, v)
-            step = {"action": a.label(), "roles": f"{s.role(a.src or a.entity)}->{s2.role(s2.owner)}",
-                    "used": v.used, "effects": fired, "assumptions": v.assumptions}
-            if s2 in seen and seen[s2] < len(path) + 1 and not goal(s2):
-                continue
-            seen.setdefault(s2, len(path) + 1)
-            frontier.append((s2, path + [step]))
+            for vd in engine.designations(a, s, v):
+                s2, fired = engine.apply(a, s, vd)
+                step = {"action": a.label(), "roles": f"{s.role(a.src or a.entity)}->{s2.role(s2.owner)}",
+                        "used": vd.used, "designated": vd.designated, "capacity": vd.capacity,
+                        "effects": fired, "assumptions": vd.assumptions}
+                if s2 in seen and seen[s2] < len(path) + 1 and not goal(s2):
+                    continue
+                seen.setdefault(s2, len(path) + 1)
+                frontier.append((s2, path + [step]))
     return {
         "agreement": engine.doc["agreement"],
+        "assumptions_on": sorted(engine.assumptions),
         "bound": {"depth": depth, "entities": engine.u.entities, "asset": engine.u.asset,
                   "start_owner": engine.u.start_owner},
         "reachable": bool(paths),
@@ -344,3 +407,26 @@ if __name__ == "__main__":
           f"expanded={cert['states_expanded']}")
     for p_ in cert["paths"][:10]:
         print("  " + " | ".join(f"{st['action']} {st['used']}" for st in p_))
+
+
+def entry_step(path):
+    """The step that puts the tracked asset into an unrestricted entity."""
+    for st in path:
+        if st["roles"].endswith("->unrestricted"):
+            return st
+    return path[-1]
+
+
+def classify(path):
+    """'uncapped-entry' if the step into the unrestricted entity is permitted in every category it
+    triggers by at least one uncapped exception; otherwise 'capped-entry'."""
+    st = entry_step(path)
+    return "uncapped-entry" if st["capacity"] and all(c == "uncapped" for c in st["capacity"].values()) else "capped-entry"
+
+
+def load_universe(path):
+    with open(path) as f:
+        doc = yaml.safe_load(f)
+    u = default_universe()
+    u.facts = doc.get("facts", [])
+    return u

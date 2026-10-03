@@ -1,0 +1,59 @@
+note: 'Counterfactual overlay: real blocker language from a different, later agreement (CPI Card Group, 2020), grafted
+  onto the J.Crew 2014 rules to test whether it closes every leakage path. Only the IP-transfer and designation
+  blockers are used; their license carve-outs are outside the Phase 0 action set.'
+external_clauses:
+  CPI.6.03(e):
+    text: (e) Notwithstanding clauses (a) through (d) of this Section 6.03, in no event shall such clauses permit
+      the Borrower or any of its Restricted Subsidiaries to consummate any Disposition of, or otherwise transfer
+      (whether through an in-kind Investment or Restricted Payment, a merger or consolidation with a Person that
+      is not the Borrower or a Subsidiary Loan Party, or otherwise), any Material Intellectual Property (including
+      any exclusive license thereto), or the Equity Interests of any Person that owns or is the exclusive licensee
+      of any Material Intellectual Property, to any other Person other than the Borrower or a Subsidiary Loan Party;
+    source_url: https://www.sec.gov/Archives/edgar/data/1641614/000155837020005298/pmts-20200331ex103b2ab65.htm
+    source_sha256: 0b13244557cbff700a14781661556c853222941df20560f76daa3c432e9b65d6
+    document: CPI Card Group Inc., Super Senior Credit Agreement dated as of March 6, 2020 (EX-10.3 to 10-Q filed
+      2020-05-06)
+  CPI.5.13(iv):
+    text: (iv) no Subsidiary may be designated as an Unrestricted Subsidiary or continue as an Unrestricted Subsidiary
+      if (u) such Subsidiary owns any Material Intellectual Property or any Equity Interests of any Subsidiary of
+      the Borrower that owns any Material Intellectual Property, (v) such Subsidiary is the exclusive licensee of
+      any Material Intellectual Property
+    source_url: https://www.sec.gov/Archives/edgar/data/1641614/000155837020005298/pmts-20200331ex103b2ab65.htm
+    source_sha256: 0b13244557cbff700a14781661556c853222941df20560f76daa3c432e9b65d6
+    document: CPI Card Group Inc., Super Senior Credit Agreement dated as of March 6, 2020 (EX-10.3 to 10-Q filed
+      2020-05-06)
+rules:
+- id: CPI.6.03(e)
+  kind: prohibition
+  action: transfer
+  actor:
+  - borrower
+  - guarantor
+  - nlp_rs
+  counterparty:
+  - holdings
+  - nlp_rs
+  - unrestricted
+  assets:
+  - ip
+  forms:
+  - contribution
+  - dividend
+  - sale
+  cite:
+    clause: CPI.6.03(e)
+    quote: any Material Intellectual Property (including any exclusive license thereto), or the Equity Interests
+      of any Person that owns or is the exclusive licensee of any Material Intellectual Property, to any other Person
+      other than the Borrower or a Subsidiary Loan Party
+- id: CPI.5.13(iv)
+  kind: prohibition
+  action: designate
+  actor:
+  - any
+  counterparty:
+  - any
+  owns_tracked_asset: true
+  cite:
+    clause: CPI.5.13(iv)
+    quote: no Subsidiary may be designated as an Unrestricted Subsidiary or continue as an Unrestricted Subsidiary
+      if (u) such Subsidiary owns any Material Intellectual Property

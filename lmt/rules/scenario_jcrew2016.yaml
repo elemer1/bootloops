@@ -1,0 +1,33 @@
+# Scenario facts for the 2016 backtest. Each fact turns off rules whose free-text
+# condition is known false for THIS asset and THIS transaction. Facts are ours, not the
+# encoders'; each cites its source.
+facts:
+- pattern: "BrandTwo"
+  holds: false
+  why: >-
+    The tracked asset is the main-brand trademark collateral (a 72.04% undivided interest),
+    not the separately defined second-brand business. Source: Eaton Vance Mgmt. v. J. Crew
+    Group (N.Y. Sup. Ct., Index No. 654397/2017, complaint filed 2017-06-22), paras. 58-60.
+- pattern: "Securitization"
+  holds: false
+  why: "No securitization financing is part of the transaction (same source)."
+
+# Capacity ledger inputs (US dollars). Total Assets at 2016-10-29 were $1,499,306,000
+# (J.Crew Group 10-Q, accession 0001564590-16-029583, via SEC XBRL), so every
+# percentage prong is below its dollar floor and the floors govern.
+capacity:
+  pools:
+    c_iv_floor: 150000000      # 7.02(c)(iv)(B)(x): greater of $150,000,000 and 4.00% of Total Assets (~$60.0M)
+    n_floor: 100000000         # 7.02(n)(i): greater of $100,000,000 and 3.25% of Total Assets (~$48.7M)
+    i_B_floor: 75000000        # 7.02(i)(B)(i): greater of $75,000,000 and 2.50% of Total Assets (~$37.5M)
+    available_amount: 27000000 # DERIVED, not verified: the lenders' complaint (para. 82) says the company
+                               # asserted about $277M of aggregate capacity under 7.02(c)(iv) and (n);
+                               # $277M - $150M - $100M = $27M, treated as one shared builder pool.
+  rule_pools:
+    "7.02(c)(iv)": [c_iv_floor, available_amount]
+    "7.02(n)": [n_floor, available_amount]
+    "7.02(n).designate": [n_floor, available_amount]
+    "7.02(i).nlp": [i_B_floor, available_amount]
+  values:
+    company_certified: 250000000   # 72.04% of $347M (complaint paras. 59-60, 82)
+    full_trademark: 347000000      # Ocean Tomo value of the entire Trademark Collateral (complaint para. 60)

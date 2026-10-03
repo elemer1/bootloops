@@ -1,0 +1,1482 @@
+agreement: jcrew2014
+rules:
+- id: char.contribution.investment
+  kind: characterization
+  action: transfer
+  forms:
+  - contribution
+  triggers:
+  - investments
+  - dispositions
+  note: Also a Disposition (transfer of property), see char.contribution.disposition.
+  cite:
+    clause: def:Investment
+    quote: a loan, advance or capital contribution to
+- id: char.contribution.disposition
+  kind: characterization
+  action: transfer
+  forms:
+  - contribution
+  triggers:
+  - investments
+  - dispositions
+  cite:
+    clause: def:Disposition
+    quote: the sale, transfer, license, lease or other disposition
+- id: char.dividend.rp
+  kind: characterization
+  action: transfer
+  forms:
+  - dividend
+  triggers:
+  - restricted_payments
+  - dispositions
+  note: Only distributions on equity of Holdings, the Borrower or a Restricted Subsidiary are Restricted Payments; a distribution
+    by an Unrestricted Subsidiary is not.
+  cite:
+    clause: def:Restricted Payment
+    quote: any dividend or other distribution (whether in cash, securities or other property) with respect to any Equity Interest
+      of Holdings, the Borrower or any of its Restricted Subsidiaries
+- id: char.dividend.disposition
+  kind: characterization
+  action: transfer
+  forms:
+  - dividend
+  triggers:
+  - restricted_payments
+  - dispositions
+  note: A distribution of property is a 'transfer ... or other disposition' of property; 7.05(e) imports 7.06 permissions.
+  cite:
+    clause: def:Disposition
+    quote: the sale, transfer, license, lease or other disposition
+- id: char.sale
+  kind: characterization
+  action: transfer
+  forms:
+  - sale
+  triggers:
+  - dispositions
+  cite:
+    clause: def:Disposition
+    quote: the sale, transfer, license, lease or other disposition
+- id: char.sale.equity_issuance
+  kind: characterization
+  action: transfer
+  forms:
+  - sale
+  triggers:
+  - dispositions
+  cite:
+    clause: def:Disposition
+    quote: any sale or issuance of Equity Interests in a Restricted Subsidiary
+- id: char.license
+  kind: characterization
+  action: transfer
+  forms:
+  - license
+  triggers:
+  - dispositions
+  cite:
+    clause: def:Disposition
+    quote: the sale, transfer, license, lease or other disposition
+- id: char.designate
+  kind: characterization
+  action: designate
+  triggers:
+  - designation
+  - investments
+  cite:
+    clause: '6.14'
+    quote: The designation of any Subsidiary as an Unrestricted Subsidiary shall constitute an Investment by the Borrower
+      therein
+- id: 6.11.attach
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - holdings
+    - borrower
+    - guarantor
+  then: attach_lien
+  note: Covenant to keep the Collateral and Guarantee Requirement satisfied; operative steps in 6.11(a)/(b).
+  cite:
+    clause: '6.11'
+    quote: ensure that the Collateral and Guarantee Requirement continues to be satisfied
+- id: 6.11(a).acquisition
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - holdings
+    - borrower
+    - guarantor
+  then: attach_lien
+  note: Lien must be granted on material assets acquired by a Loan Party, subject to the Collateral and Guarantee Requirement
+    (Holdings' grant per that definition).
+  cite:
+    clause: 6.11(a)
+    quote: upon the acquisition of any material assets by the Borrower or any other Loan Party
+- id: 6.11(a).redesignation
+  kind: effect
+  'on': designate
+  when:
+    counterparty:
+    - guarantor
+  then: attach_lien
+  note: Applies only to re-designation of an Unrestricted Subsidiary as Restricted where it is a wholly owned Material Domestic
+    Subsidiary that must become a Guarantor.
+  cite:
+    clause: 6.11(a)
+    quote: the designation in accordance with Section 6.14, of any existing direct or indirect wholly owned Material Domestic
+      Subsidiary as a Restricted Subsidiary
+- id: 6.11(b).real_property
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - borrower
+    - guarantor
+  then: attach_lien
+  note: Real property only (asset type other); Holdings excluded. 6.11(b)(i) concerns Schedule 1.01A post-closing items.
+  cite:
+    clause: 6.11(b)
+    quote: promptly after the acquisition of any Material Real Property by any Loan Party other than Holdings
+- id: def:CGR.attach
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - holdings
+    - borrower
+    - guarantor
+  then: attach_lien
+  note: Holdings is listed among those giving the guarantee ('each, a "Guarantor"'); Excluded Subsidiaries (incl. Foreign
+    Subsidiaries, non-wholly owned, Unrestricted) need not be Guarantors. Equity of first-tier Foreign Subsidiaries pledged
+    only 65%.
+  cite:
+    clause: def:Collateral and Guarantee Requirement
+    quote: substantially all tangible and intangible personal property of the Borrower and each Guarantor
+- id: '6.14'
+  kind: exception
+  category: designation
+  action: designate
+  actor:
+  - borrower
+  counterparty:
+  - guarantor
+  - nlp_rs
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - immediately before and after such designation, no Default
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis, with officer certificate (not required for designating a Securitization
+    Subsidiary in connection with a Qualified Securitization Financing)
+  - entity would not be a 'Restricted Subsidiary' for the ABL Facilities, the Senior Notes, any other Junior Financing or
+    any other Indebtedness of any Loan Party
+  - entity has not previously been re-designated from Unrestricted to Restricted (no subsequent re-designation)
+  - designation is an Investment by the Borrower at fair market value and must be permitted under 7.02
+  note: Re-designation of an Unrestricted Subsidiary as Restricted is also permitted (deemed incurrence of its Indebtedness/Liens);
+    not modeled as an action.
+  cite:
+    clause: '6.14'
+    quote: The board of directors of the Borrower may at any time designate any Restricted Subsidiary as an Unrestricted Subsidiary
+- id: '7.01'
+  kind: na
+  reason: Lien covenant lead-in; transfers/designations do not themselves create Liens
+  cite:
+    clause: '7.01'
+    quote: Create, incur, assume or suffer to exist any Lien
+- id: 7.01(a)
+  kind: na
+  reason: the lenders' own Liens under Loan Documents; permits no inter-entity asset movement
+  cite:
+    clause: 7.01(a)
+    quote: Liens created pursuant to any Loan Document
+- id: 7.01(b)
+  kind: na
+  reason: scheduled existing Liens
+  cite:
+    clause: 7.01(b)
+    quote: Liens existing on the date hereof and set forth on Schedule 7.01(b)
+- id: 7.01(c)
+  kind: na
+  reason: tax liens; no inter-entity asset movement
+  cite:
+    clause: 7.01(c)
+    quote: Liens for taxes
+- id: 7.01(d)
+  kind: na
+  reason: statutory/landlord liens
+  cite:
+    clause: 7.01(d)
+    quote: statutory or common law Liens of landlords
+- id: 7.01(e)
+  kind: na
+  reason: workers' comp/insurance pledges
+  cite:
+    clause: 7.01(e)
+    quote: pledges or deposits in the ordinary course of business in connection with workers’ compensation
+- id: 7.01(f)
+  kind: na
+  reason: performance deposits
+  cite:
+    clause: 7.01(f)
+    quote: deposits to secure the performance of bids
+- id: 7.01(g)
+  kind: na
+  reason: real property easements/title defects
+  cite:
+    clause: 7.01(g)
+    quote: easements, rights-of-way, restrictions
+- id: 7.01(h)
+  kind: na
+  reason: judgment liens
+  cite:
+    clause: 7.01(h)
+    quote: Liens arising from judgments or orders for the payment of money
+- id: 7.01(i)
+  kind: na
+  reason: purchase-money/capital lease liens and liens on Non-Loan Party assets securing their own debt; third-party Liens,
+    not inter-entity transfers
+  cite:
+    clause: 7.01(i)
+    quote: Liens securing obligations in respect of Indebtedness permitted under Section 7.03(e)
+- id: 7.01(j)
+  kind: na
+  reason: leases/licenses granted in ordinary course as permitted Liens; the transfer itself is governed by 7.05(h)
+  cite:
+    clause: 7.01(j)
+    quote: leases, licenses, subleases or sublicenses granted to others in the ordinary course of business
+- id: 7.01(k)
+  kind: na
+  reason: customs and trade L/C liens
+  cite:
+    clause: 7.01(k)
+    quote: in favor of customs and revenue authorities
+- id: 7.01(l)
+  kind: na
+  reason: banker's/collection bank liens
+  cite:
+    clause: 7.01(l)
+    quote: of a collection bank arising under Section 4-208 of the Uniform Commercial Code
+- id: 7.01(m)
+  kind: na
+  reason: earnest-money and agreement-to-dispose liens; ancillary to permitted Investments/Dispositions
+  cite:
+    clause: 7.01(m)
+    quote: consisting of an agreement to Dispose of any property in a Disposition permitted under Section 7.05
+- id: 7.01(n)
+  kind: na
+  reason: Foreign Subsidiary liens securing its own debt
+  cite:
+    clause: 7.01(n)
+    quote: Liens on property of any Foreign Subsidiary securing Indebtedness of such Foreign Subsidiary
+- id: 7.01(o)
+  kind: na
+  reason: intercompany debt liens; no asset transfer
+  cite:
+    clause: 7.01(o)
+    quote: Liens in favor of the Borrower or a Restricted Subsidiary securing Indebtedness permitted under Section 7.03(d)
+- id: 7.01(p)
+  kind: na
+  reason: liens on acquired property / acquired entities
+  cite:
+    clause: 7.01(p)
+    quote: Liens existing on property at the time of its acquisition
+- id: 7.01(q)
+  kind: na
+  reason: lessor/licensor interests
+  cite:
+    clause: 7.01(q)
+    quote: any interest or title of a lessor, sublessor, licensor or sublicensor
+- id: 7.01(r)
+  kind: na
+  reason: conditional sale/title retention
+  cite:
+    clause: 7.01(r)
+    quote: Liens arising out of conditional sale, title retention, consignment
+- id: 7.01(s)
+  kind: na
+  reason: repurchase agreement and brokerage liens
+  cite:
+    clause: 7.01(s)
+    quote: Liens deemed to exist in connection with Investments in repurchase agreements
+- id: 7.01(t)
+  kind: na
+  reason: contractual setoff rights
+  cite:
+    clause: 7.01(t)
+    quote: customary contractual rights of setoff
+- id: 7.01(u)
+  kind: na
+  reason: earnest money deposits
+  cite:
+    clause: 7.01(u)
+    quote: Liens solely on any cash earnest money deposits
+- id: 7.01(v)
+  kind: na
+  reason: ground leases
+  cite:
+    clause: 7.01(v)
+    quote: ground leases in respect of real property
+- id: 7.01(w)
+  kind: na
+  reason: precautionary UCC filings
+  cite:
+    clause: 7.01(w)
+    quote: purported Liens evidenced by the filing of precautionary Uniform Commercial Code financing statements
+- id: 7.01(x)
+  kind: na
+  reason: insurance premium financing
+  cite:
+    clause: 7.01(x)
+    quote: Liens on insurance policies and the proceeds thereof
+- id: 7.01(y)
+  kind: na
+  reason: ABL liens subject to intercreditor
+  cite:
+    clause: 7.01(y)
+    quote: Liens securing obligations in respect of Indebtedness permitted under Section 7.03(r)(i)
+- id: 7.01(z)
+  kind: na
+  reason: securitization liens and clauses (aa)-(gg) (zoning, renewals, refinancing liens on Collateral, card processor setoff,
+    L/C liens, lease deposits, general $50,000,000/1.75% lien basket); third-party Liens, not inter-entity transfers
+  cite:
+    clause: 7.01(z)
+    quote: Liens on the Securitization Assets arising in connection with a Qualified Securitization Financing
+- id: '7.02'
+  kind: na
+  reason: Investments covenant lead-in; permissions encoded per clause
+  cite:
+    clause: '7.02'
+    quote: Make or hold any Investments, except
+- id: 7.02(a)
+  kind: na
+  reason: investments in Cash Equivalents (third-party instruments), not intra-group
+  cite:
+    clause: 7.02(a)
+    quote: Investments by Holdings, the Borrower or any of the Restricted Subsidiaries in assets that are Cash Equivalents
+- id: 7.02(b)
+  kind: na
+  reason: loans to officers/employees
+  cite:
+    clause: 7.02(b)
+    quote: loans or advances to officers, directors and employees
+- id: 7.02(c)(i)(A)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - holdings
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  cite:
+    clause: 7.02(c)
+    quote: by (A) Holdings in any Loan Party
+- id: 7.02(c)(i)(B)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - borrower
+  - guarantor
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  cite:
+    clause: 7.02(c)
+    quote: the Borrower or any Restricted Subsidiary that is a Loan Party in the Borrower or any Restricted Subsidiary that
+      is a Loan Party
+- id: 7.02(c)(ii)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - nlp_rs
+  - unrestricted
+  counterparty:
+  - nlp_rs
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  note: '''Non-Loan Party'' is any Subsidiary that is not a Loan Party, so literally includes Unrestricted Subsidiaries as
+    investors.'
+  cite:
+    clause: 7.02(c)
+    quote: by any Non-Loan Party in any other Non-Loan Party that is a Restricted Subsidiary
+- id: 7.02(c)(iii)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - nlp_rs
+  - unrestricted
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  cite:
+    clause: 7.02(c)
+    quote: by any Non-Loan Party in the Borrower or any Restricted Subsidiary that is a Loan Party
+- id: 7.02(c)(iv)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - holdings
+  - borrower
+  - guarantor
+  counterparty:
+  - nlp_rs
+  assets:
+  - any
+  foreign: any
+  capacity: capped
+  capacity_note: greater of $150,000,000 and 4.00% of Total Assets, plus the Available Amount (if positive), at any time outstanding
+  conditions:
+  - intercompany loans under this clause evidenced by notes pledged to the Collateral Agent
+  cite:
+    clause: 7.02(c)
+    quote: by any Loan Party in any Non-Loan Party that is a Restricted Subsidiary
+- id: 7.02(d)
+  kind: na
+  reason: trade credit receivables
+  cite:
+    clause: 7.02(d)
+    quote: extensions of credit in the nature of accounts receivable
+- id: 7.02(e).dispositions
+  kind: exception
+  category: investments
+  action: transfer
+  actor: &id001
+  - holdings
+  - borrower
+  - guarantor
+  - nlp_rs
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: dispositions
+    except:
+    - 7.05(d)(ii)
+    - 7.05(e).investments
+    - 7.05(e).rp
+  note: Investments consisting of Dispositions permitted by 7.05 other than 7.05(d)(ii) or (e). Liens (7.01), Indebtedness
+    (7.03) and fundamental changes (7.04) cross-references not modeled.
+  cite:
+    clause: 7.02(e)
+    quote: Investments consisting of Liens, Indebtedness, fundamental changes, Dispositions and Restricted Payments permitted
+      under Sections 7.01
+- id: 7.02(e).rp
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: restricted_payments
+    except:
+    - 7.06(d)
+    - 7.06(g)(iv)
+  note: Investments consisting of Restricted Payments permitted by 7.06 other than 7.06(d) or (g)(iv).
+  cite:
+    clause: 7.02(e)
+    quote: 7.06 (other than Section 7.06(d) or (g)(iv))
+- id: 7.02(f)
+  kind: na
+  reason: scheduled existing Investments and their renewals; not a general intra-group permission
+  cite:
+    clause: 7.02(f)
+    quote: Investments existing on the date hereof
+- id: 7.02(g)
+  kind: na
+  reason: swap contracts
+  cite:
+    clause: 7.02(g)
+    quote: Investments in Swap Contracts permitted under Section 7.03
+- id: 7.02(h)
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: dispositions
+    except: []
+  note: Covers only consideration received on a permitted Disposition; limited to sales.
+  cite:
+    clause: 7.02(h)
+    quote: promissory notes and other non-cash consideration that is permitted to be received in connection with Dispositions
+      permitted by Section 7.05
+- id: 7.02(i).lp
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  forms:
+  - contribution
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - acquired property constitutes Collateral and acquired/created Subsidiary becomes a Guarantor and complies with Section
+    6.11
+  - acquired business permitted under Section 7.07
+  - no Default immediately before and after
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+  - Responsible Officer certificate
+  - counterparty is (or becomes) wholly owned
+  note: Permitted Acquisition. Whether an intra-group capital contribution in exchange for equity is a 'purchase or other
+    acquisition' is a reading choice.
+  cite:
+    clause: 7.02(i)
+    quote: Equity Interests in a Person that, upon the consummation thereof, will be a wholly owned Restricted Subsidiary
+      of the Borrower
+- id: 7.02(i).nlp
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - holdings
+  - borrower
+  - guarantor
+  counterparty:
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - contribution
+  - sale
+  foreign: any
+  capacity: capped
+  capacity_note: greater of $75,000,000 and 2.50% of Total Assets, plus the Available Amount (if positive), at any time outstanding
+  conditions:
+  - acquired business permitted under Section 7.07
+  - no Default immediately before and after
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+  - Responsible Officer certificate
+  - counterparty is (or becomes) a wholly owned Restricted Subsidiary
+  note: Permitted Acquisition clause (B) basket for Persons that do not become Loan Parties.
+  cite:
+    clause: 7.02(i)
+    quote: the aggregate amount of Investments made by the Loan Parties in Persons that do not become Loan Parties shall not
+      exceed
+- id: 7.02(i).nlp_actor
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - nlp_rs
+  counterparty:
+  - borrower
+  - guarantor
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - contribution
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - acquired business permitted under Section 7.07
+  - no Default immediately before and after
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+  - Responsible Officer certificate
+  - counterparty is (or becomes) a wholly owned Restricted Subsidiary
+  note: Clause (B) cap applies only to Investments by Loan Parties; a Permitted Acquisition by a Non-Loan Party is not capped
+    by (B).
+  cite:
+    clause: 7.02(i)
+    quote: the purchase or other acquisition of property and assets or businesses of any Person
+- id: 7.02(j)
+  kind: na
+  reason: Original Transaction investments
+  cite:
+    clause: 7.02(j)
+    quote: Investments made to effect the Original Transaction
+- id: 7.02(k)
+  kind: na
+  reason: UCC endorsements
+  cite:
+    clause: 7.02(k)
+    quote: Uniform Commercial Code Article 3 endorsements
+- id: 7.02(l)
+  kind: na
+  reason: investments received in bankruptcy/settlement of third parties
+  cite:
+    clause: 7.02(l)
+    quote: received in connection with the bankruptcy or reorganization of suppliers and customers
+- id: 7.02(m)
+  kind: na
+  reason: intercompany loans/advances to Holdings in lieu of Restricted Payments under 7.06(f)/(g); loan form not modeled
+    (see 7.06(f), 7.06(g))
+  cite:
+    clause: 7.02(m)
+    quote: loans and advances to Holdings (or any direct or indirect parent thereof) in lieu of
+- id: 7.02(n)
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: capped
+  capacity_note: greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no
+    Event of Default
+  conditions:
+  - 'Available Amount portion: no Event of Default continuing or resulting'
+  cite:
+    clause: 7.02(n)
+    quote: other Investments that do not exceed in the aggregate at any time outstanding
+- id: 7.02(n).designate
+  kind: exception
+  category: investments
+  action: designate
+  actor:
+  - borrower
+  counterparty:
+  - guarantor
+  - nlp_rs
+  foreign: any
+  capacity: capped
+  capacity_note: greater of $100,000,000 and 3.25% of Total Assets, plus the Available Amount (if positive) so long as no
+    Event of Default
+  conditions:
+  - 'Available Amount portion: no Event of Default continuing or resulting'
+  note: Designation is deemed an Investment (6.14) at fair market value; general basket covers it.
+  cite:
+    clause: 7.02(n)
+    quote: other Investments that do not exceed in the aggregate at any time outstanding
+- id: 7.02(o)
+  kind: na
+  reason: payroll advances
+  cite:
+    clause: 7.02(o)
+    quote: advances of payroll payments to employees
+- id: 7.02(p)
+  kind: na
+  reason: Investments paid for with Holdings' own Qualified Equity Interests; no transfer of a modeled group asset
+  cite:
+    clause: 7.02(p)
+    quote: Investments to the extent that payment for such Investments is made solely with Qualified Equity Interests of Holdings
+- id: 7.02(q)
+  kind: na
+  reason: pre-existing Investments of acquired Persons
+  cite:
+    clause: 7.02(q)
+    quote: Investments held by a Restricted Subsidiary acquired after the Closing Date
+- id: 7.02(r)
+  kind: na
+  reason: guarantees of leases/non-debt obligations
+  cite:
+    clause: 7.02(r)
+    quote: Guarantees by the Borrower or any of the Restricted Subsidiaries of leases
+- id: 7.02(s)
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - unrestricted
+  assets:
+  - other
+  forms:
+  - contribution
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - counterparty is a Securitization Subsidiary
+  - in connection with a Qualified Securitization Financing
+  - assets are Securitization Assets (receivables, royalty or other revenue streams)
+  note: Each Securitization Subsidiary is an Unrestricted Subsidiary by definition. Securitization Assets modeled as 'other'.
+  cite:
+    clause: 7.02(s)
+    quote: any such Investment in a Securitization Subsidiary is in the form of a contribution of additional Securitization
+      Assets or as equity
+- id: 7.02(t)
+  kind: exception
+  category: investments
+  action: transfer
+  actor:
+  - nlp_rs
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  funded_by:
+  - 7.02(c)(iv)
+  - 7.02(i).nlp
+  - 7.02(n)
+  note: 'No independent cap: limited only by the amount received under the funding baskets.'
+  cite:
+    clause: 7.02(t)
+    quote: Investments made by any Restricted Subsidiary that is not a Loan Party to the extent such Investments are financed
+      with the proceeds received by such Restricted Subsidiary from an Investment in such Restricted Subsidiary made pursuant
+      to Sections 7.02(c)(iv), (i)(B) or (n)
+- id: 7.02(u)(i)
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  forms:
+  - contribution
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - assets comprise all or part of the BrandTwo Business
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis immediately after the Disposition
+  note: Reads equity received for a contribution of BrandTwo assets as an Investment 'received in connection with' a 7.05(o)
+    disposition.
+  cite:
+    clause: 7.02(u)
+    quote: Investments received in connection with (i) a disposition permitted by Section 7.05(o)
+- id: 7.02(u)(ii)
+  kind: exception
+  category: investments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - Restricted Payment permitted by 7.06(l)
+  note: Covers the recipient's acquisition of Investments (e.g. BrandTwo equity) distributed under 7.06(l).
+  cite:
+    clause: 7.02(u)
+    quote: (ii) any Restricted Payment permitted by Section 7.06(l)
+- id: '7.05'
+  kind: na
+  reason: Dispositions covenant lead-in; permissions encoded per clause
+  cite:
+    clause: '7.05'
+    quote: Make any Disposition or enter into any agreement to make any Disposition, except
+- id: 7.05(a)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - property obsolete, worn out, used or surplus (ordinary course) or no longer used or useful
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(a)
+    quote: Dispositions of property no longer used or useful in the conduct of the business
+- id: 7.05(b)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - other
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - ordinary course of business
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(b)
+    quote: Dispositions of inventory and goods held for sale in the ordinary course of business
+- id: 7.05(c)
+  kind: na
+  reason: like-kind replacement property exchanges; no inter-entity movement
+  cite:
+    clause: 7.05(c)
+    quote: such property is exchanged for credit against the purchase price of similar replacement property
+- id: 7.05(d)(i)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor:
+  - borrower
+  - guarantor
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  note: LP-to-LP among the Borrower and RS Loan Parties is exempt from the fair-market-value proviso.
+  cite:
+    clause: 7.05(d)
+    quote: Dispositions of property to the Borrower or a Restricted Subsidiary; provided that if the transferor of such property
+      is a Loan Party (i) the transferee thereof must be a Loan Party
+- id: 7.05(d)(i).holdings
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor:
+  - holdings
+  counterparty:
+  - borrower
+  - guarantor
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - fair market value
+  note: 'FMV exemption covers only transfers from the Borrower or a Restricted Subsidiary that is a Loan Party, so Holdings''
+    transfers need FMV. 7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under
+    this clause unless LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(d)
+    quote: Dispositions of property to the Borrower or a Restricted Subsidiary; provided that if the transferor of such property
+      is a Loan Party (i) the transferee thereof must be a Loan Party
+- id: 7.05(d).nlp
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor:
+  - nlp_rs
+  counterparty:
+  - borrower
+  - guarantor
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(d)
+    quote: Dispositions of property to the Borrower or a Restricted Subsidiary
+- id: 7.05(d)(ii)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor:
+  - holdings
+  - borrower
+  - guarantor
+  counterparty:
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - fair market value
+  via:
+    category: investments
+    except: &id002
+    - 7.02(e).dispositions
+    - 7.02(e).rp
+  note: 'Text speaks of ''such Investment'' (suggesting a contribution) but the FMV proviso is not lifted for LP-to-NLP transfers;
+    contributions reach 7.05 via 7.05(e) instead. 7.05 closing proviso (text appended to 7.05(t)) requires fair market value
+    for Dispositions under this clause unless LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms:
+    [sale].'
+  cite:
+    clause: 7.05(d)
+    quote: such Investment must be a permitted Investment in a Restricted Subsidiary that is not a Loan Party in accordance
+      with Section 7.02 (other than Section 7.02(e))
+- id: 7.05(e).investments
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: investments
+    except: *id002
+  note: Exempt from the FMV proviso. 7.04 (fundamental changes) cross-reference not modeled.
+  cite:
+    clause: 7.05(e)
+    quote: Dispositions permitted by Sections 7.02 (other than Section 7.02(e))
+- id: 7.05(e).rp
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: restricted_payments
+    except:
+    - 7.06(d)
+  note: Exempt from the FMV proviso.
+  cite:
+    clause: 7.05(e)
+    quote: 7.06 (other Section 7.06(d))
+- id: 7.05(f)
+  kind: na
+  reason: sale-leaseback financings with proceeds applied to prepayment; third-party financing, not an intra-group transfer
+  cite:
+    clause: 7.05(f)
+    quote: Dispositions of property pursuant to sale-leaseback transactions
+- id: 7.05(g)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - cash
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale]. Cash contributions/dividends instead
+    rely on 7.05(e).'
+  cite:
+    clause: 7.05(g)
+    quote: Dispositions of Cash Equivalents
+- id: 7.05(h)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - ip
+  - other
+  forms:
+  - license
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - ordinary course of business
+  - does not materially interfere with the business of the Borrower and the Restricted Subsidiaries, taken as a whole
+  - fair market value
+  note: FMV proviso applies (7.05(h) not excepted).
+  cite:
+    clause: 7.05(h)
+    quote: leases, subleases, licenses or sublicenses (including the provision of software under an open source license),
+      in each case in the ordinary course of business
+- id: 7.05(i)
+  kind: na
+  reason: casualty event transfers
+  cite:
+    clause: 7.05(i)
+    quote: transfers of property subject to Casualty Events
+- id: 7.05(j)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  capacity_note: no amount cap; Net Cash Proceeds above $100,000,000 aggregate must prepay Loans
+  conditions:
+  - no Default at time of Disposition
+  - if purchase price > $15,000,000, at least 75% consideration in cash or Cash Equivalents
+  - Net Cash Proceeds in excess of $100,000,000 aggregate applied to prepay Loans
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(j)
+    quote: Dispositions of property not otherwise permitted under this Section 7.05
+- id: 7.05(k)
+  kind: na
+  reason: JV buy/sell arrangements with joint venture parties
+  cite:
+    clause: 7.05(k)
+    quote: Dispositions of Investments in joint ventures
+- id: 7.05(l)
+  kind: na
+  reason: collection/compromise of receivables
+  cite:
+    clause: 7.05(l)
+    quote: Dispositions of accounts receivable in connection with the collection or compromise thereof
+- id: 7.05(m)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - equity
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - equity is in an Unrestricted Subsidiary
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale].'
+  cite:
+    clause: 7.05(m)
+    quote: any issuance or sale of Equity Interests in, or sale of Indebtedness or other securities of, an Unrestricted Subsidiary
+- id: 7.05(n)
+  kind: na
+  reason: Section 1031 like-kind exchanges
+  cite:
+    clause: 7.05(n)
+    quote: any exchange of like property
+- id: 7.05(o)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - assets comprise all or part of the BrandTwo Business
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis immediately after
+  note: Exempt from the FMV proviso when the same leverage test is met, so any form.
+  cite:
+    clause: 7.05(o)
+    quote: any Disposition of all or any part of the BrandTwo Business (including by way of the issuance or disposition of
+      any Equity Interests)
+- id: 7.05(p)
+  kind: na
+  reason: swap unwinds
+  cite:
+    clause: 7.05(p)
+    quote: the unwinding of any Swap Contract
+- id: 7.05(q)
+  kind: na
+  reason: store closings/sales at arm's length
+  cite:
+    clause: 7.05(q)
+    quote: in connection with the closing or sale of a Store
+- id: 7.05(r)
+  kind: na
+  reason: bulk inventory sales on store closings
+  cite:
+    clause: 7.05(r)
+    quote: bulk sales of other Dispositions of the inventory of a Loan Party
+- id: 7.05(s)
+  kind: exception
+  category: dispositions
+  action: transfer
+  actor: *id001
+  counterparty:
+  - unrestricted
+  assets:
+  - other
+  forms:
+  - sale
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - assets are Securitization Assets
+  - counterparty is a Securitization Subsidiary
+  - fair market value
+  note: '7.05 closing proviso (text appended to 7.05(t)) requires fair market value for Dispositions under this clause unless
+    LP-to-LP (Borrower/RS Loan Party to Borrower/RS Loan Party); encoded as forms: [sale]. Securitization Subsidiaries are
+    Unrestricted Subsidiaries by definition.'
+  cite:
+    clause: 7.05(s)
+    quote: any Disposition of Securitization Assets to a Securitization Subsidiary
+- id: 7.05(t)
+  kind: na
+  reason: 'lapse/abandonment of immaterial IP registrations; no counterparty (the trailing FMV and free-and-clear provisos
+    are encoded as forms: [sale] on non-exempt 7.05 exceptions and as effect 7.05.free_and_clear)'
+  cite:
+    clause: 7.05(t)
+    quote: the lapse or abandonment in the ordinary course of business of any registrations or applications for registration
+      of any immaterial IP Rights
+- id: 7.05.free_and_clear
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - nlp_rs
+    - unrestricted
+  then: release_lien
+  cite:
+    clause: 7.05(t)
+    quote: To the extent any Collateral is Disposed of as expressly permitted by this Section 7.05 to any Person other than
+      a Loan Party, such Collateral shall be sold free and clear of the Liens created by the Loan Documents
+- id: '7.06'
+  kind: na
+  reason: Restricted Payments covenant lead-in; permissions encoded per clause
+  cite:
+    clause: '7.06'
+    quote: Declare or make, directly or indirectly, any Restricted Payment
+- id: 7.06(a)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - guarantor
+  - nlp_rs
+  counterparty:
+  - borrower
+  - guarantor
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  note: Non-wholly owned Restricted Subsidiaries pay pro rata to all equity owners.
+  cite:
+    clause: 7.06(a)
+    quote: each Restricted Subsidiary may make Restricted Payments to the Borrower and to its other Restricted Subsidiaries
+- id: 7.06(b)
+  kind: na
+  reason: dividends payable solely in the payer's own Equity Interests; no transfer of a modeled group asset
+  cite:
+    clause: 7.06(b)
+    quote: dividend payments or other distributions payable solely in the Equity Interests
+- id: 7.06(c)
+  kind: na
+  reason: Original Transaction payments
+  cite:
+    clause: 7.06(c)
+    quote: Restricted Payments made on the Original Closing Date
+- id: 7.06(d)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - any
+  assets:
+  - any
+  foreign: any
+  capacity: unlimited
+  conditions: []
+  via:
+    category: investments
+    except: *id002
+  note: 7.04 and 7.08 cross-references not modeled.
+  cite:
+    clause: 7.06(d)
+    quote: transactions expressly permitted by any provision of Section 7.02 (other than Section 7.02(e))
+- id: 7.06(e)
+  kind: na
+  reason: deemed repurchases on option exercise
+  cite:
+    clause: 7.06(e)
+    quote: repurchases of Equity Interests in Holdings, the Borrower or any of the Restricted Subsidiaries deemed to occur
+      upon exercise of stock options
+- id: 7.06(f)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - borrower
+  counterparty:
+  - holdings
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: capped
+  capacity_note: $15,000,000 per calendar year ($25,000,000 after a Qualifying IPO), with carryover, plus key man life insurance
+    proceeds; shared with 7.02(m)
+  conditions:
+  - proceeds used to repurchase Equity Interests held by present/former employees, directors, consultants or distributors
+  cite:
+    clause: 7.06(f)
+    quote: make Restricted Payments to allow Holdings or any direct or indirect parent thereof to pay
+- id: 7.06(g)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - borrower
+  counterparty:
+  - holdings
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: capped
+  capacity_note: limited to the amounts of the specified taxes, operating/overhead costs, franchise taxes and public company
+    costs, failed offering costs, and officer salaries/benefits ((i)-(iii), (v), (vi))
+  conditions:
+  - proceeds used for the purposes in 7.06(g)(i)-(iii), (v) or (vi)
+  cite:
+    clause: 7.06(g)
+    quote: the Borrower may make Restricted Payments to Holdings or to any direct or indirect parent of Holdings
+- id: 7.06(g)(iv)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - borrower
+  counterparty:
+  - holdings
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - made substantially concurrently with the closing of an Investment permitted under 7.02
+  - property acquired contributed to the Borrower or a Restricted Subsidiary (or acquired Person merged into it) in accordance
+    with 6.11 and 7.02
+  note: The financed Investment must itself be permitted under 7.02 and the acquired property brought back into the Restricted
+    group.
+  cite:
+    clause: 7.06(g)
+    quote: to finance any Investment permitted to be made pursuant to Section 7.02
+- id: 7.06(h)
+  kind: na
+  reason: cash in lieu of fractional shares
+  cite:
+    clause: 7.06(h)
+    quote: pay cash in lieu of fractional Equity Interests
+- id: 7.06(i)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - borrower
+  counterparty:
+  - holdings
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: capped
+  capacity_note: up to 6% per annum of the net proceeds received by or contributed to the Borrower in such public offering
+  conditions:
+  - following the first public offering of the Borrower's (or a parent's) common stock after the Closing Date
+  cite:
+    clause: 7.06(i)
+    quote: the declaration and payment of dividends on the Borrower’s common stock following the first public offering
+- id: 7.06(j)
+  kind: na
+  reason: deemed repurchases on option exercise/withholding
+  cite:
+    clause: 7.06(j)
+    quote: deemed to occur on the exercise of options
+- id: 7.06(k)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor:
+  - borrower
+  counterparty:
+  - holdings
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: capped
+  capacity_note: 2.50% of Total Assets less the Total Asset Percentage Amount less prior (k)(i) usage, plus the Available
+    Amount (if positive) if Total Leverage Ratio <= 6.0 to 1.0; shared with 7.12(a)(i)(E)
+  conditions:
+  - no Default continuing or resulting
+  - 'Available Amount portion: Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate'
+  cite:
+    clause: 7.06(k)
+    quote: the Borrower may make additional Restricted Payments
+- id: 7.06(l)(x)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - holdings
+  - borrower
+  - guarantor
+  - nlp_rs
+  assets:
+  - cash
+  forms:
+  - dividend
+  foreign: any
+  capacity: capped
+  capacity_note: Net Cash Proceeds from any Disposition of all or part of the BrandTwo Business
+  conditions:
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+  note: Payer not limited by the text; counterparty is the payer's equity holder.
+  cite:
+    clause: 7.06(l)
+    quote: in an aggregate amount not to exceed the Net Cash Proceeds
+- id: 7.06(l)(y)
+  kind: exception
+  category: restricted_payments
+  action: transfer
+  actor: *id001
+  counterparty:
+  - holdings
+  - borrower
+  - guarantor
+  - nlp_rs
+  assets:
+  - any
+  forms:
+  - dividend
+  foreign: any
+  capacity: unlimited
+  conditions:
+  - assets comprise all or part of the BrandTwo Business (including Equity Interests and exclusively-used trademarks)
+  - Total Leverage Ratio <= 6.0 to 1.0 on a Pro Forma Basis with CFO certificate
+  note: Payer not limited by the text; counterparty is the payer's equity holder.
+  cite:
+    clause: 7.06(l)
+    quote: constituting the assets comprising all or any part of the BrandTwo Business
+- id: '9.11'
+  kind: na
+  reason: lead-in authorizing Agents to release; operative release triggers encoded under 9.11(a)/(c)
+  cite:
+    clause: '9.11'
+    quote: irrevocably authorizes the Administrative Agent and the Collateral Agent
+- id: 9.11(a)(ii)
+  kind: effect
+  'on': transfer
+  when:
+    counterparty:
+    - nlp_rs
+    - unrestricted
+  then: release_lien
+  note: Also releases on a permitted transfer to a Guarantor that is not a Domestic Subsidiary.
+  cite:
+    clause: 9.11(a)
+    quote: any transfer permitted hereunder or under any other Loan Document to any Person other than Holdings, the Borrower
+      or any of its Domestic Subsidiaries that are Guarantors
+- id: 9.11(a)(iv)
+  kind: effect
+  'on': designate
+  when:
+    counterparty:
+    - unrestricted
+  then: release_lien
+  note: Releases liens on the released Guarantor's own property; not liens on its equity held by a parent Loan Party.
+  cite:
+    clause: 9.11(a)
+    quote: if the property subject to such Lien is owned by a Guarantor, upon release of such Guarantor from its obligations
+      under its Guaranty pursuant to clause (c) below
+- id: 9.11(c)
+  kind: effect
+  'on': designate
+  when:
+    counterparty:
+    - unrestricted
+  then: release_lien
+  note: No release if the Guarantor continues to guarantee the ABL Facilities, Credit Agreement Refinancing Indebtedness,
+    the Senior Notes or other Junior Financing.
+  cite:
+    clause: 9.11(c)
+    quote: such Person ceases to be a Restricted Subsidiary as a result of a transaction or designation permitted hereunder
+- id: 9.11(b)
+  kind: na
+  reason: subordination/release to purchase-money lienholders under 7.01(i); not tied to inter-entity transfer or designation
+  cite:
+    clause: 9.11(b)
+    quote: release or subordinate any Lien on any property granted to or held by the Administrative Agent or the Collateral
+      Agent under any Loan Document to the holder of any Lien
+- id: 9.11(d)
+  kind: na
+  reason: release of a Guarantor (and Liens on its assets and equity) when it ceases to be a Material Subsidiary; triggered
+    by size thresholds and Borrower election, not by a modeled transfer or designation as such
+  cite:
+    clause: 9.11(d)
+    quote: if any Guarantor shall cease to be a Material Subsidiary

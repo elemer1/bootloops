@@ -17,6 +17,7 @@ def lint(doc, src):
     clauses = {k: normalize(anonymize(v)) for k, v in src["clauses"].items()}
     defs = {f"def:{anonymize(k)}": normalize(anonymize(v)) for k, v in src["definitions"].items()}
     synth = {k: normalize(v) for k, v in (doc.get("synthetic_clauses") or {}).items()}
+    synth.update({k: normalize(v["text"]) for k, v in (doc.get("external_clauses") or {}).items()})
     cited = set()
     for r in doc["rules"]:
         c = r["cite"]
@@ -32,6 +33,16 @@ def lint(doc, src):
         cited.add(key)
         for extra in r.get("also_cites") or []:
             cited.add(extra)
+        for c2 in r.get("cites") or []:
+            t2 = clauses.get(c2["clause"]) or defs.get(c2["clause"]) or synth.get(c2["clause"])
+            if t2 is None or normalize(anonymize(c2["quote"])) not in t2:
+                findings.append(f"{r['id']}: secondary cite not found verbatim in {c2['clause']}")
+    # multi-document grounding: a lien release must also be grounded in the security document
+    for prefix, doc_prefix in (doc.get("release_requires") or {}).items():
+        for r in doc["rules"]:
+            if r["kind"] == "effect" and r.get("then") == "release_lien" and r["cite"]["clause"].startswith(prefix):
+                if not any(c["clause"].startswith(doc_prefix) for c in r.get("cites") or []):
+                    findings.append(f"{r['id']}: lien release not grounded in a {doc_prefix}* security-document clause")
     missing = sorted(k for k in clauses if k not in cited)
     for k in missing:
         findings.append(f"COVERAGE: clause {k} is not cited by any rule")
